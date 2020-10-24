@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body, input, button {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+}
+
+.background {
+    background: #000 url('../assets/background.jpg');
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+}
+
+.background .error-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    z-index: 1;
+}
+
+.background .error-overlay .error-popup {
+  margin: 4.375em auto;
+  padding: 1.250em;
+  background: #fff;
+  border-radius: 0.313em;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  z-index: 2;
+}
+
+.background .error-overlay .error-popup h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+  margin-bottom: 0.938em;
+  font-weight: bold;
+}
+
+.background .error-overlay .error-popup .error-close {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  border: 0; 
+  background-color: transparent;
+}
+
+.background .error-overlay .error-popup .error-close:hover {
+  color: #06D85F;
+}
+
+.background .error-overlay .error-popup .error-content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+.background .error-overlay .error-popup .error-content p {
+    font-size: 1em;
+    color: #666;
+    text-align: center;
+}
+
+.background .content {
+	padding-top: 15em;
+}
+
+.background .content .form {
+	margin: auto;
+	width: 100%;
+	max-width: 35em;
+}
+
+.background .content .form header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.background .content .form header img {
+    width: 15em;
+    margin-bottom: 1em;
+}
+
+.background .content .form button[type='submit'] {
+    margin-top: 1.5em;
+}

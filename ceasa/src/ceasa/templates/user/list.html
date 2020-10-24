@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block pagina %}
+<div class='list'>
+	{% if usuarios|length > 0 %}
+		<div class='input-group mb-3'>
+			<div class='input-group-prepend'>
+				<button class='btn btn-outline-success' type='button' onclick='window.location.href=`{% url "usercreate" %}`'>Cadastrar</button>
+			</div>
+			<input type='text' class='form-control' placeholder='Pesquisar usuário pelo nome' />
+			<div class='input-group-append'>
+				<button class='btn btn-secondary' type='button' onclick='pesquisarUsuario()'>Pesquisar</button>
+			</div>
+		</div>
+		<div class='table-responsive-lg'>
+			<table class='table table-bordered table-hover'>
+				<thead class='thead-dark'>
+					<th scope='col' class='text-center align-middle'>Nome</th>
+					<th scope='col' class='text-center align-middle'>Rua</th>
+					<th scope='col' class='text-center align-middle'>Cidade</th>
+					<th scope='col' class='text-center align-middle'>Opções</th>
+				</thead>
+				<tbody>
+					{% for usuario in usuarios %}
+						<tr>
+							<td class='text-center align-middle'>{{ usuario.nome }}</td>
+							<td class='text-center align-middle'>{{ usuario.cpf }}</td>
+							<td class='text-center align-middle'>{{ usuario.telefone }}</td>
+							<td class='text-center align-middle'>
+								<div class='form-row'>
+									<div class='col'>
+										<button 
+											type='button' 
+											class='btn btn-outline-primary btn-md btn-block'
+											onclick='window.location.href=`{% url "useredit" usuario.id %}`'
+										>
+											Alterar
+										</button>
+									</div>
+									<div class='col'>
+										<form method='post' action='{% url "userdelete" usuario.id %}'>
+											{% csrf_token %}
+											<button type='submit' class='btn btn-outline-danger btn-md btn-block'>Remover</button>
+										</form>
+									</div>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% else %}
+		<div class='empty'>
+			<div class='card'>
+				<div class='card-body' onclick='window.location.href=`{% url "usercreate" %}`'>
+					<header>
+						<strong>Aviso</strong>
+						<small>Ainda não existe usuários cadastrados</small>
+					</header>
+					<button class='btn btn-secondary btn-lg btn-block'>Novo Usuário</button>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+</div>
+{% endblock %}

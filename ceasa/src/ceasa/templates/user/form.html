@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block pagina %}
+
+{% if erro is not None %}
+	<div class='error-overlay' onclick='this.style.display="none"'>
+		<div class='error-popup' onclick='this.parentElement.style.display="none"'>
+			<h2>Aviso</h2>
+			<button aria-label='Fechar' class='error-close'>&times;</button>
+			<div class='error-content'>
+				<p>{{ erro }}</p>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<div id='bloco_cpf' class='message-overlay' onclick='this.style.display="none"'>
+	<div class='message-popup' onclick='this.parentElement.style.display="none"'>
+		<h2 id='titulo_cpf'></h2>
+		<button class='message-close'>&times;</button>
+		<div class='message-content'>
+			<p id='mensagem_cpf'></p>		
+		</div>
+	</div>
+</div>
+
+<div class='form'>
+	<div class='card'>
+		<div class='card-body'>
+			<form method='post' action='.' autocomplete='off'>
+				{% csrf_token %}
+				<header>
+					<strong>Formulário de Usuário</strong>
+				</header>
+
+				{% if editar is True %}
+					<input id='cpf_valido' name='cpf_valido' type='hidden' value='1' />
+				{% else %}
+					<input id='cpf_valido' name='cpf_valido' type='hidden' value='0' />
+				{% endif %}
+
+				<div class='form-row' style='margin-top: 1em;'>
+					<div class='col'>
+						<label for='nome'>Nome</label>
+						<input
+							type='text'
+							class='form-control'
+							id='nome'
+							name='nome'
+							maxlength='100'
+							value='{{ form.nome }}'
+							placeholder='Preencha o nome do usuário'
+							required
+							oninput='setCustomValidity("")'
+							oninvalid='setCustomValidity("Preencher campo obrigatório")' 
+						/>
+					</div>
+					<div class='col'>
+						<label for='cpf'>CPF</label>
+						{% if editar is True %}
+							<input
+								type='text'
+								class='form-control'
+								name='cpf'
+								id='cpf'
+								maxlength='14'
+								pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
+								value='{{ form.cpf }}'
+								placeholder='Preencha com o cpf do usuário'
+								required
+								readonly
+								onkeypress='mascaraCPF(this)'
+								onblur='validarCPF(this)'
+								oninput='setCustomValidity("")'
+								oninvalid='setCustomValidity("Preencher campo obrigatório")'
+							/>
+						{% else %}
+							<input
+								type='text'
+								class='form-control'
+								name='cpf'
+								id='cpf'
+								maxlength='14'
+								pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
+								value='{{ form.cpf }}'
+								placeholder='Preencha com o cpf do usuário'
+								required
+								onkeypress='mascaraCPF(this)'
+								onblur='validarCPF(this)'
+								oninput='setCustomValidity("")'
+								oninvalid='setCustomValidity("Preencher campo obrigatório")'
+							/>
+						{% endif %}
+					</div>
+				</div>
+				<div class='form-row' style='margin-top: 1em;'>
+					<div class='col'>
+						<label for='senha'>Senha</label>
+						{% if editar is True %}
+							<input
+								type='password'
+								class='form-control'
+								name='senha'
+								id='senha'
+								maxlength='100'
+								value='{{ form.senha }}'
+								placeholder='Preencha com uma nova senha do usuário'
+								oninput='setCustomValidity("")' 
+							/>
+						{% else %}
+							<input
+								type='password'
+								class='form-control'
+								name='senha'
+								id='senha'
+								maxlength='100'
+								value='{{ form.senha }}'
+								placeholder='Preencha com a senha do usuário'
+								required
+								oninput='setCustomValidity("")'
+								oninvalid='setCustomValidity("Preencher campo obrigatório")' 
+							/>
+						{% endif %}
+					</div>
+					<div class='col'>
+						<label for='telefone'>Telefone celular</label>
+						<input
+							type='text'
+							class='form-control'
+							name='telefone'
+							id='telefone'
+							maxlength='15'
+							pattern='[\(][0-9]{2}[\)][\s]{1}[0-9]{5}[-][0-9]{4}' 
+							value='{{ form.telefone }}'
+							placeholder='Preencha com o telefone celular do usuário'
+							required
+							onkeypress='mascaraCelular(this)'
+							oninput='setCustomValidity("")'
+							oninvalid='setCustomValidity("Preencher com o formato padrão de telefone celular")'
+						/>
+					</div>
+				</div>
+				<div class='form-row' style='margin-top: 1em;'>
+					<div class='col'>
+						<label for='tipo'>Tipo</label>
+						<select 
+							class='custom-select' 
+							id='tipo' 
+							name='tipo'
+							required
+							value='{{ form.tipo }}'
+						>
+							<option value='E'>Escolas de Campinas</option>
+							<option value='S'>Secretária de Educação</option>
+							<option value='M'>Ministério Público</option>
+							<option value='A'>Administrador</option>
+						</select>
+					</div>
+					<div class='col'>
+						<label for='escola'>Escola</label>
+						<select 
+							class='custom-select' 
+							id='escola'
+							name='escola'
+						>
+							<option selected hidden>Selecione uma escola</option>
+							{% for escola in escolas %}
+								<option value='{{ escola.id }}'>{{ escola.nome }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+			
+				<div class='form-row'>
+					<div class='col'>
+						<button type='button' class='btn btn-danger btn-lg btn-block' onclick='window.location.href=`{% url "userlist" %}`'>Cancelar</button>
+					</div>
+					<div class='col'>
+						<button type='submit' class='btn btn-success btn-lg btn-block'>Salvar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

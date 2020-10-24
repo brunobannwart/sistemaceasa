@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block pagina %}
+<div class='list'>
+	{% if escolas|length > 0 %}
+		<div class='input-group mb-3'>
+			<div class='input-group-prepend'>
+				<button class='btn btn-outline-success' type='button' onclick='window.location.href=`{% url "schoolcreate" %}`'>Cadastrar</button>
+			</div>
+			<input type='text' class='form-control' placeholder='Pesquisar escola pelo nome' />
+			<div class='input-group-append'>
+				<button class='btn btn-secondary' type='button' onclick='pesquisarEscola()'>Pesquisar</button>
+			</div>
+		</div>
+		<div class='table-responsive-lg'>
+			<table class='table table-bordered table-hover'>
+				<thead class='thead-dark'>
+					<th scope='col' class='text-center align-middle'>Nome</th>
+					<th scope='col' class='text-center align-middle'>Rua</th>
+					<th scope='col' class='text-center align-middle'>Cidade</th>
+					<th scope='col' class='text-center align-middle'>Opções</th>
+				</thead>
+				<tbody>
+					{% for escola in escolas %}
+						<tr>
+							<td class='text-center align-middle'>{{ escola.nome }}</td>
+							<td class='text-center align-middle'>{{ escola.rua }}</td>
+							<td class='text-center align-middle'>{{ escola.cidade }}</td>
+							<td class='text-center align-middle'>
+								<div class='form-row'>
+									<div class='col'>
+										<button 
+											type='button' 
+											class='btn btn-outline-primary btn-md btn-block'
+											onclick='window.location.href=`{% url "schooledit" escola.id %}`'
+										>
+											Alterar
+										</button>
+									</div>
+									<div class='col'>
+										<form method='post' action='{% url "schooldelete" escola.id %}'>
+											{% csrf_token %}
+											<button type='submit' class='btn btn-outline-danger btn-md btn-block'>Remover</button>
+										</form>
+									</div>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% else %}
+		<div class='empty'>
+			<div class='card'>
+				<div class='card-body' onclick='window.location.href=`{% url "schoolcreate" %}`'>
+					<header>
+						<strong>Aviso</strong>
+						<small>Ainda não existe escolas cadastradas</small>
+					</header>
+					<button class='btn btn-secondary btn-lg btn-block'>Nova Escola</button>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+</div>
+{% endblock %}

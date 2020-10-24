@@ -1,0 +1,141 @@
+.error-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    z-index: 1;
+}
+
+.error-overlay .error-popup {
+  margin: 4.375em auto;
+  padding: 1.250em;
+  background: #fff;
+  border-radius: 0.313em;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  z-index: 2;
+}
+
+.error-overlay .error-popup h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+  margin-bottom: 0.938em;
+  font-weight: bold;
+}
+
+.error-overlay .error-popup .error-close {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  border: 0; 
+  background-color: transparent;
+}
+
+.error-overlay .error-popup .error-close:hover {
+  color: #06D85F;
+}
+
+.error-overlay .error-popup .error-content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+.error-overlay .error-popup .error-content p {
+    font-size: 1em;
+    color: #666;
+    text-align: center;
+}
+
+.message-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  z-index: 1;
+  display: none;
+}
+
+.message-overlay .message-popup {
+  margin: 4.375em auto;
+  padding: 1.250em;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  z-index: 2;
+}
+
+.message-overlay .message-popup h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+  margin-bottom: 0.938em;
+  font-weight: bold;
+}
+
+.message-overlay .message-popup .message-close {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  border: 0; 
+  background-color: transparent;
+}
+
+.message-overlay .message-popup .message-close:hover {
+  color: #06D85F;
+}
+
+.message-overlay .message-popup .message-content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+.message-overlay .message-popup .message-content p {
+  font-size: 1em;
+  color: #666;
+  text-align: center;
+}
+
+.form {
+  padding-top: 5em;
+}
+
+.form form header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form form header strong {
+  font-size: 1.5em;
+}
+
+.form form button[type='submit'] {
+  margin-top: 1.5em;
+}
+
+.form form button[type='button'] {
+  margin-top: 1.5em;
+}

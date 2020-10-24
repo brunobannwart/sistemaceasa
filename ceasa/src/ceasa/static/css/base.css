@@ -1,0 +1,17 @@
+nav {
+	background-color: #397439;
+}
+
+nav img {
+	width: 10em;
+}
+
+nav a {
+	color: #FFF;
+}
+
+nav a:hover {
+	color: #FFF;
+	text-decoration: none;
+	font-size: 1.1em;
+}

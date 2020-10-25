@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Produto(models.Model):
-	descricao 			= 	models.CharField(verbose_name='Descrição', max_length=255)
+	descricao 			= 	models.TextField(verbose_name='Descrição', max_length=255, blank=False, null=False)
 	created_at			=	models.DateTimeField(verbose_name='Criado em', auto_now_add=True)
 	update_at   		=	models.DateTimeField(verbose_name='Atualizado em', auto_now=True)
 

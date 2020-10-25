@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block pagina %}
+
+{% if erro is not None %}
+	<div class='error-overlay' onclick='this.style.display="none"'>
+		<div class='error-popup' onclick='this.parentElement.style.display="none"'>
+			<h2>Aviso</h2>
+			<button aria-label='Fechar' class='error-close'>&times;</button>
+			<div class='error-content'>
+				<p>{{ erro }}</p>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<div class='form'>
+	<div class='card'>
+		<div class='card-body'>
+			<form method='post' action='.' autocomplete='off'>
+				{% csrf_token %}
+				<header>
+					<strong>Formulário de Produto</strong>
+				</header>
+
+				<div class='form-group'>
+					<label for='descricao'>Descrição</label>
+					<textarea class='form-control' id='descricao' rows='4' maxlength='255' placeholder='Preencha com uma descrição do produto'>{{ form.descricao }}</textarea>
+				</div>
+			
+				<div class='form-row'>
+					<div class='col'>
+						<button type='button' class='btn btn-danger btn-lg btn-block' onclick='window.location.href=`{% url "productlist" %}`'>Cancelar</button>
+					</div>
+					<div class='col'>
+						<button type='submit' class='btn btn-success btn-lg btn-block'>Salvar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

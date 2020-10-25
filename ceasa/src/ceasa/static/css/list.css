@@ -19,7 +19,11 @@
 .list .empty header strong {
 	font-size: 1.5em;
 	font-weight: bold;
-	margin-bottom: 0.938em;
+}
+
+.list .empty header i {
+	font-size: 4em;
+	color: #F02A00;
 }
 
 .list .empty header small {

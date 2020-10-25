@@ -39,7 +39,7 @@
 					<input id='cpf_valido' name='cpf_valido' type='hidden' value='0' />
 				{% endif %}
 
-				<div class='form-row' style='margin-top: 1em;'>
+				<div class='form-row'>
 					<div class='col'>
 						<label for='nome'>Nome</label>
 						<input
@@ -49,7 +49,7 @@
 							name='nome'
 							maxlength='100'
 							value='{{ form.nome }}'
-							placeholder='Preencha o nome do usuário'
+							placeholder='Preencha com o nome do usuário'
 							required
 							oninput='setCustomValidity("")'
 							oninvalid='setCustomValidity("Preencher campo obrigatório")' 
@@ -150,6 +150,7 @@
 							required
 							value='{{ form.tipo }}'
 						>
+							<option selected hidden>Selecione um tipo</option>
 							<option value='E'>Escolas de Campinas</option>
 							<option value='S'>Secretária de Educação</option>
 							<option value='M'>Ministério Público</option>

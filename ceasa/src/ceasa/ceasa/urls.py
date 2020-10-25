@@ -21,6 +21,7 @@ from django.views.static import serve
 
 from ceasa.views import login_view, changepassword_view, logout_view
 from escola.views import schoollist_view, schoolcreate_view, schooledit_view, schooldelete_view
+from produto.views import productlist_view, productcreate_view, productedit_view, productdelete_view
 from usuario.views import userlist_view, usercreate_view, useredit_view, userdelete_view
 
 urlpatterns = [
@@ -34,6 +35,11 @@ urlpatterns = [
     path('escolas/formulario/', schoolcreate_view, name='schoolcreate'),
     path('escolas/formulario/<int:id>/', schooledit_view, name='schooledit'),
     path('escolas/excluir/<int:id>/', schooldelete_view, name='schooldelete'),
+
+    path('produtos/', productlist_view, name='productlist'),
+    path('produtos/formulario/', productcreate_view, name='productcreate'),
+    path('produtos/formulario/<int:id>/', productedit_view, name='productedit'),
+    path('produtos/excluir/<int:id>/', productdelete_view, name='productdelete'),
 
     path('usuarios/', userlist_view, name='userlist'),
     path('usuarios/formulario/', usercreate_view, name='usercreate'),

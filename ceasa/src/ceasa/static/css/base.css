@@ -10,6 +10,7 @@
 html, body {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 nav {
@@ -35,4 +36,13 @@ nav li a:hover {
 nav li a i {
 	color: #FFF;
 	font-size: 1.3em;
+}
+
+footer {
+	background-color: #316331;
+}
+
+footer p {
+	color: #FFF;
+	font-size: 0.8em;
 }

@@ -8,6 +8,7 @@ class Usuario(models.Model):
 	telefone 			= 	models.CharField(verbose_name='Telefone', max_length=15)
 	senha_hash			=	models.CharField(verbose_name='Senha', max_length=64)
 	tipo				=	models.CharField(verbose_name='Tipo', max_length=1)
+	escola				=	models.ForeignKey('escola.Escola', on_delete=models.CASCADE, blank=True, null=True)
 
 	is_authenticated	=	models.BooleanField(verbose_name='Autenticado', default=False)
 	last_login			=	models.DateTimeField(verbose_name='Último login', blank=True, null=True)

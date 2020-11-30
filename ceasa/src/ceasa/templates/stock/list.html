@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block pagina %}
+<div class='list'>
+	{% if estoques|length > 0 %}
+		<div class='input-group mb-3'>
+			<div class='input-group-prepend'>
+				<button class='btn btn-outline-success' type='button' onclick='window.location.href=`{% url "stockcreate" %}`'>Cadastrar</button>
+			</div>
+			<input type='text' class='form-control' placeholder='Pesquisar estoque pela escola' />
+			<div class='input-group-append'>
+				<button class='btn btn-secondary' type='button' onclick='pesquisarEstoque()'>Pesquisar</button>
+			</div>
+		</div>
+		<div class='table-responsive-lg'>
+			<table class='table table-bordered table-hover'>
+				<thead class='thead-dark'>
+					<th scope='col' class='text-center align-middle'>Escola</th>
+					<th scope='col' class='text-center align-middle'>Produto</th>
+					<th scope='col' class='text-center align-middle'>Quantidade</th>
+					<th scope='col' class='text-center align-middle'>Opções</th>
+				</thead>
+				<tbody>
+					{% for estoque in estoques %}
+						<tr>
+							<td class='text-center align-middle'>{{ estoque.escola }}</td>
+							<td class='text-center align-middle'>{{ estoque.produto }}</td>
+							<td class='text-center align-middle'>{{ estoque.quantidade }}</td>
+							<td class='text-center align-middle'>
+								<div class='form-row'>
+									<div class='col'>
+										<button 
+											type='button' 
+											class='btn btn-outline-primary btn-md btn-block'
+											onclick='window.location.href=`{% url "stockedit" estoque.id %}`'
+										>
+											Alterar
+										</button>
+									</div>
+									<div class='col'>
+										<form method='post' action='{% url "stockdelete" estoque.id %}'>
+											{% csrf_token %}
+											<button type='submit' class='btn btn-outline-danger btn-md btn-block'>Remover</button>
+										</form>
+									</div>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% else %}
+		<div class='empty'>
+			<div class='card'>
+				<div class='card-body' onclick='window.location.href=`{% url "stockcreate" %}`'>
+					<header>
+						<strong>Aviso</strong>
+						<i class='fas fa-times'></i>
+						<small>Ainda não existe estoques cadastrados</small>
+					</header>
+					<button class='btn btn-dark btn-lg btn-block'>Novo Estoque</button>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+</div>
+{% endblock %}

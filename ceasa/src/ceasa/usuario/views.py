@@ -35,13 +35,19 @@ def usercreate_view(request):
 				formulario = request.POST
 				erro = 'Já existe usuário com esse CPF'
 
-			try:
-				novo_usuario = Usuario.objects.create(nome=campos['nome'], cpf=campos['cpf'], 
-					telefone=campos['telefone'], tipo=campos['tipo'], senha_hash=campos['senha'])
-				novo_usuario.save()
+			else:
+				try:
+					if campos['tipo'] == 'E':
+						escola = Escolas.objects.get(id=campos['escola'])
+					else:
+						escola = None
 
-			finally:
-				return redirect('userlist')
+					novo_usuario = Usuario.objects.create(nome=campos['nome'], cpf=campos['cpf'], 
+						telefone=campos['telefone'], tipo=campos['tipo'], senha_hash=campos['senha'], escola=escola)
+					novo_usuario.save()
+
+				finally:
+					return redirect('userlist')
 		else:
 			formulario = request.POST
 			erro = 'Alguns campos não foram preenchidos corretamente'
@@ -52,6 +58,7 @@ def usercreate_view(request):
 			'telefone': '',
 			'senha'
 			'tipo': '',
+			'escola': '',
 		}
 
 		erro = None
@@ -91,6 +98,14 @@ def useredit_view(request, id=0):
 					editar_usuario.senha_hash = campos['senha']
 
 				editar_usuario.tipo = campos['tipo']
+
+				if campos['tipo'] == 'E':
+					escola = Escola.objects.get(id=campos['escola'])
+
+				else:
+					escola = None
+
+				editar_usuario.escola = escola
 				editar_usuario.save()
 			
 			finally:

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block pagina %}
+
+{% if erro is not None %}
+	<div class='error-overlay' onclick='this.style.display="none"'>
+		<div class='error-popup' onclick='this.parentElement.style.display="none"'>
+			<h2>Aviso</h2>
+			<button aria-label='Fechar' class='error-close'>&times;</button>
+			<div class='error-content'>
+				<p>{{ erro }}</p>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<div class='form'>
+	<div class='card'>
+		<div class='card-body'>
+			<form method='post' action='.' autocomplete='off'>
+				{% csrf_token %}
+				<header>
+					<strong>Formulário de Estoque</strong>
+				</header>
+
+				<div class='form-row'>
+					<div class='col'>
+						<label for='escola'>Escola</label>
+						{% if editar is True %}
+							<select
+								class='custom-select'
+								id='escola'
+								name='escola'
+								readonly
+								required
+								value='{{ form.escola }}'
+							>
+								<option hidden>Selecione uma escola</option>
+								{% for escola in escolas %}
+									<option value='{{ escola.id }}'>{{ escola.nome }}</option>
+								{% endfor %}
+							</select>
+						{% else %}
+							<select
+								class='custom-select'
+								id='escola'
+								name='escola'
+								required
+								value='{{ form.escola }}'
+							>
+								<option hidden>Selecione uma escola</option>
+								{% for escola in escolas %}
+									<option value='{{ escola.id }}'>{{ escola.nome }}</option>
+								{% endfor %}
+							</select>
+						{% endif %}
+					</div>
+					<div class='col'>
+						<label for='produto'>Escola</label>
+						{% if editar is True %}
+							<select
+								class='custom-select'
+								id='produto'
+								name='produto'
+								readonly
+								required
+								value='{{ form.produto }}'
+							>
+								<option hidden>Selecione um produto</option>
+								{% for produto in produtos %}
+									<option value='{{ produto.id }}'>{{ produto.descricao }}</option>
+								{% endfor %}
+							</select>
+						{% else %}
+							<select
+								class='custom-select'
+								id='produto'
+								name='produto'
+								required
+								value='{{ form.produto }}'
+							>
+								<option hidden>Selecione um produto</option>
+								{% for produto in produtos %}
+									<option value='{{ produto.id }}'>{{ produto.descricao }}</option>
+								{% endfor %}
+							</select>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class='form-row'>
+					<div class='col'>
+						<label for='quantidade'>Quantidade</label>
+						<input 
+							type='number'
+							min='0'
+							id='quantidade'
+							name='quantidade'
+							class='form-control'
+							required
+							placeholder='Preencha com a quantidade atual no estoque'
+							value='{{ form.quantidade }}' 
+							oninput='setCustomValidity("")'
+							oninvalid='setCustomValidity("Preencher campo obrigatório")' 
+						/>
+					</div>
+					<div class='col'>
+						<label for='minimo'>Mínimo</label>
+						<input 
+							type='number'
+							min='0'
+							id='minimo'
+							name='minimo'
+							class='form-control'
+							required
+							placeholder='Preencha com a quantidade mínima no estoque'
+							value='{{ form.quantidade }}' 
+							oninput='setCustomValidity("")'
+							oninvalid='setCustomValidity("Preencher campo obrigatório")' 
+						/>
+					</div>
+				</div>
+			
+				<div class='form-row'>
+					<div class='col'>
+						<button type='button' class='btn btn-danger btn-lg btn-block' onclick='window.location.href=`{% url "stocklist" %}`'>Cancelar</button>
+					</div>
+					<div class='col'>
+						<button type='submit' class='btn btn-success btn-lg btn-block'>Salvar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

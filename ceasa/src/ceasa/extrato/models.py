@@ -4,7 +4,7 @@ from django.db import models
 class Extrato(models.Model):
 	escola 				=	models.ForeignKey('escola.Escola', verbose_name='Escola', on_delete=models.CASCADE)	
 	data_hora			=	models.DateTimeField(verbose_name='Data/Hora')
-	produto 			=	models.ForeignKey('produto.Produto', verbose_name='Escola', on_delete=models.CASCADE)
+	produto 			=	models.ForeignKey('produto.Produto', verbose_name='Produto', on_delete=models.CASCADE)
 	entrada_saida		=	models.CharField(verbose_name='E/S', max_length=1)
 	tipo_mov			=	models.CharField('Tipo de movimentação', max_length=2)
 	numero_documento	=	models.CharField('Número do documento', max_length=255)

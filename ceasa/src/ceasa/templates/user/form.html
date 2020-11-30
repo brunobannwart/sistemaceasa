@@ -163,6 +163,8 @@
 							class='custom-select' 
 							id='escola'
 							name='escola'
+							disabled 
+							value='{{ form.escola }}'
 						>
 							<option selected hidden>Selecione uma escola</option>
 							{% for escola in escolas %}
@@ -184,4 +186,13 @@
 		</div>
 	</div>
 </div>
+<script>
+	$('#tipo').change(function() {
+		if($(this).val() == 'E') {
+			$('#escola').prop('disabled', false);
+		} else {
+			$('#escola').prop('disabled', true);
+		}
+	})
+</script>
 {% endblock %}

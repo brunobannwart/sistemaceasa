@@ -70,7 +70,7 @@ def stockcreate_view(request):
 
 @login_required(login_url='login')
 @csrf_protect
-def stockedit_view(request, id=0):
+def stockedit_view(request, id):
 	if id == 0:
 		return redirect('stocklist')
 

@@ -5,10 +5,10 @@ import hashlib
 # Create your form here.
 class UsuarioForm(forms.Form):
 	nome 		=	forms.CharField(label='Nome', max_length=100)
-	cpf 		=	forms.CharField(label='Nome', max_length=14)
-	telefone 	=	forms.CharField(label='Nome', max_length=15)
-	senha 		=	forms.CharField(label='Nome', max_length=100, widget=forms.PasswordInput)
-	tipo 		=	forms.CharField(label='Nome', max_length=1)
+	cpf 		=	forms.CharField(label='CPF', max_length=14)
+	telefone 	=	forms.CharField(label='Telefone', max_length=15)
+	senha 		=	forms.CharField(label='Senha', max_length=100, widget=forms.PasswordInput)
+	tipo 		=	forms.CharField(label='Tipo', max_length=1)
 	escola		=	forms.ModelChoiceField(label='Escola', widget=forms.Select, queryset=Escola.objects.all(), required=False)
 
 	def clean_form(self):
@@ -32,10 +32,10 @@ class UsuarioForm(forms.Form):
 
 class UsuarioEditarForm(forms.Form):
 	nome 		=	forms.CharField(label='Nome', max_length=100)
-	cpf 		=	forms.CharField(label='Nome', max_length=14)
-	telefone 	=	forms.CharField(label='Nome', max_length=15)
-	senha 		=	forms.CharField(label='Nome', max_length=100, widget=forms.PasswordInput, required=False)
-	tipo 		=	forms.CharField(label='Nome', max_length=1)
+	cpf 		=	forms.CharField(label='CPF', max_length=14)
+	telefone 	=	forms.CharField(label='Telefone', max_length=15)
+	senha 		=	forms.CharField(label='Senha', max_length=100, widget=forms.PasswordInput, required=False)
+	tipo 		=	forms.CharField(label='Tipo', max_length=1)
 	escola		=	forms.ModelChoiceField(label='Escola', widget=forms.Select, queryset=Escola.objects.all(), required=False)
 
 	def clean_form(self):

@@ -16,4 +16,4 @@ class Estoque(models.Model):
 		db_table = 'estoque'
 		verbose_name = 'Estoque'
 		verbose_name_plural = 'Estoques'
-		ordering = ['escola']
+		ordering = ['escola_id']

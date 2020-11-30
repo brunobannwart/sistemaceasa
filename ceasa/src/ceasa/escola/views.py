@@ -66,7 +66,7 @@ def schoolcreate_view(request):
 
 @login_required(login_url='login')
 @csrf_protect
-def schooledit_view(request, id=0):
+def schooledit_view(request, id):
 	if id == 0:
 		return redirect('schoollist')
 

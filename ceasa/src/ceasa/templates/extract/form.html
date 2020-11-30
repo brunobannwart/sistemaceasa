@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block pagina %}
+
+{% if erro is not None %}
+	<div class='error-overlay' onclick='this.style.display="none"'>
+		<div class='error-popup' onclick='this.parentElement.style.display="none"'>
+			<h2>Aviso</h2>
+			<button aria-label='Fechar' class='error-close'>&times;</button>
+			<div class='error-content'>
+				<p>{{ erro }}</p>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<div class='form'>
+	<div class='card'>
+		<div class='card-body'>
+			<form method='post' action='.' autocomplete='off'>
+				{% csrf_token %}
+				<header>
+					<strong>Formulário de Extrato</strong>
+				</header>
+
+				<div class='form-row'>
+					<div class='col'>
+						<label for='escola'>Escola</label>
+						<select
+							class='custom-select'
+							id='escola'
+							name='escola'
+							required
+							value='{{ form.escola }}'
+						>
+							<option hidden>Selecione uma escola</option>
+							{% for escola in escolas %}
+								<option value='{{ escola.id }}'>{{ escola.nome }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class='col'>
+						<label for='produto'>Produto</label>
+						<select
+							class='custom-select'
+							id='produto'
+							name='produto'
+							required
+							value='{{ form.produto }}'
+						>
+							<option hidden>Selecione um produto</option>
+							{% for produto in produtos %}
+								<option value='{{ produto.id }}'>{{ produto.descricao }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+
+				<div class='form-row' style='margin-top: 1em;'>
+					<div class='col'>
+						<label for='numero_documento'>Número do documento</label>
+						<input
+							type='text'
+							id='numero_documento'
+							name='numero_documento'
+							maxlength='255'
+							class='form-control'
+							value='{{ form.numero_documento }}'
+							required
+							oninput='setCustomValidity("")'
+							oninvalid='setCustomValidity("Preencher campo obrigatório")'
+							placeholder='Preencha com o número do documento do extrato'  
+						/>
+					</div>
+					<div class='col'>
+						<label for='data_hora'>Data/hora</label>
+						<input
+							type='datetime-local'
+							id='data_hora'
+							name='data_hora'
+							required
+							value='{{ form.data_hora }}'
+							class='form-control'
+							oninput='setCustomValidity("")'
+							oninvalid='setCustomValidity("Preencher campo obrigatório")'  
+						/>
+					</div>
+				</div>
+
+				<div class='form-row' style='margin-top: 1em;'>
+					<div class='col'>
+						<label for='entrada_saida'>Entrada/saída</label>
+						<select
+							class='custom-select'
+							id='entrada_saida'
+							name='entrada_saida'
+							required
+							value='{{ form.entrada_saida }}'
+						>
+							<option hidden>Entrada ou saída?</option>
+							<option value='E'>Entrada</option>
+							<option value='S'>Saida</option>
+						</select>
+					</div>
+					<div class='col'>
+						<label for='tipo_mov'>Tipo de movimento</label>
+						<select
+							class='custom-select'
+							id='tipo_mov'
+							name='tipo_mov'
+							required
+							value='{{ form.tipo_mov }}'
+						>
+							<option hidden>Selecione o tipo de movimento</option>
+							<option value='RO'>RO</option>
+							<option value='RQ'>RQ</option>
+							<option value='DV'>DV</option>
+							<option value='AJ'>AJ</option>
+						</select>
+					</div>
+				</div>
+
+				<div class='form-row' style='margin-top: 1em;'>
+					<div class='col'>
+						<label for='quantidade'>Quantidade</label>
+						<input
+							type='number'
+							id='quantidade'
+							name='quantidade'
+							value='{{ form.quantidade }}'
+							required
+							min='0'
+							class='form-control'
+							oninput='setCustomValidity("")'
+							oninvalid='setCustomValidity("Preencher campo obrigatório")'
+							placeholder='Preencha com o quantidade no extrato'  
+						/>
+					</div>
+					<div class='col'>
+						<label for='saldo'>Saldo</label>
+						<input
+							type='number'
+							id='saldo'
+							name='saldo'
+							required
+							min='0'
+							class='form-control'
+							oninput='setCustomValidity("")'
+							oninvalid='setCustomValidity("Preencher campo obrigatório")'
+							value='{{ form.saldo }}'
+							placeholder='Preencha com o saldo no extrato'  
+						/>
+					</div>
+				</div>
+
+				<div class='form-row'>
+					<div class='col'>
+						<button type='button' class='btn btn-danger btn-lg btn-block' onclick='window.location.href=`{% url "extractlist" %}`'>Cancelar</button>
+					</div>
+					<div class='col'>
+						<button type='submit' class='btn btn-success btn-lg btn-block'>Salvar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

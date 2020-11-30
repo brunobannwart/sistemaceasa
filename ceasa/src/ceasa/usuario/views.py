@@ -70,7 +70,7 @@ def usercreate_view(request):
 
 @login_required(login_url='login')
 @csrf_protect
-def useredit_view(request, id=0):
+def useredit_view(request, id):
 	if id == 0:
 		return redirect('userlist')
 

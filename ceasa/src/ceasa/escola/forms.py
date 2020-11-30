@@ -3,13 +3,13 @@ from django import forms
 # Create your form here.
 class EscolaForm(forms.Form):
 	nome 		=	forms.CharField(label='Nome', max_length=100)
-	rua 		=	forms.CharField(label='Nome', max_length=100)
-	numero 		=	forms.CharField(label='Nome', max_length=10)
-	bairro 		=	forms.CharField(label='Nome', max_length=100)
-	cidade 		=	forms.CharField(label='Nome', max_length=100)
-	estado 		=	forms.CharField(label='Nome', max_length=2)
-	cep 		=	forms.CharField(label='Nome', max_length=10)
-	diretor 	=	forms.CharField(label='Nome', max_length=100)
+	rua 		=	forms.CharField(label='Rua', max_length=100)
+	numero 		=	forms.CharField(label='Numero', max_length=10)
+	bairro 		=	forms.CharField(label='Bairro', max_length=100)
+	cidade 		=	forms.CharField(label='Cidade', max_length=100)
+	estado 		=	forms.CharField(label='Estado', max_length=2)
+	cep 		=	forms.CharField(label='Cep', max_length=10)
+	diretor 	=	forms.CharField(label='Diretor', max_length=100)
 
 	def clean_form(self):
 		nome 	=	self.cleaned_data.get('nome')

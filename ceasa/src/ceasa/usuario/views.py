@@ -37,13 +37,8 @@ def usercreate_view(request):
 
 			else:
 				try:
-					if campos['tipo'] == 'E':
-						escola = Escolas.objects.get(id=campos['escola'])
-					else:
-						escola = None
-
 					novo_usuario = Usuario.objects.create(nome=campos['nome'], cpf=campos['cpf'], 
-						telefone=campos['telefone'], tipo=campos['tipo'], senha_hash=campos['senha'], escola=escola)
+						telefone=campos['telefone'], tipo=campos['tipo'], senha_hash=campos['senha'], escola=campos['escola'])
 					novo_usuario.save()
 
 				finally:
@@ -98,14 +93,7 @@ def useredit_view(request, id=0):
 					editar_usuario.senha_hash = campos['senha']
 
 				editar_usuario.tipo = campos['tipo']
-
-				if campos['tipo'] == 'E':
-					escola = Escola.objects.get(id=campos['escola'])
-
-				else:
-					escola = None
-
-				editar_usuario.escola = escola
+				editar_usuario.escola = campos['escola']
 				editar_usuario.save()
 			
 			finally:

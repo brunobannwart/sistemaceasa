@@ -35,14 +35,11 @@ def stockcreate_view(request):
 
 			if Estoque.objects.filter(escola=campos['escola'], produto=campos['produto']):
 				formulario = request.POST
-				erro = 'Já existe produto no estoque desta escola'
+				erro = 'Já existe este produto no estoque desta escola'
 
 			else:
 				try:
-					escola = Escola.objects.get(id=campos['escola'])
-					produto = Produto.objects.get(id=campos['produto'])
-
-					novo_estoque = Estoque.objects.create(escola=escola, produto=produto, quantidade=campos['quantidade'], minimo=campos['minimo'])
+					novo_estoque = Estoque.objects.create(escola=campos['escola'], produto=campos['produto'], quantidade=campos['quantidade'], minimo=campos['minimo'])
 					novo_estoque.save()
 
 				finally:
@@ -89,12 +86,8 @@ def stockedit_view(request, id=0):
 
 			try:
 				editar_estoque = Estoque.objects.get(id=id)
-
-				escola = Escola.objects.get(id=campos['escola'])
-				produto = Produto.objects.get(id=campos['produto'])
-
-				editar_estoque.escola = escola
-				editar_estoque.produto = produto
+				editar_estoque.escola = campos['escola']
+				editar_estoque.produto = campos['produto']
 				editar_estoque.quantidade = campos['quantidade']
 				editar_estoque.minimo = campos['minimo']
 				editar_estoque.save()

@@ -10,10 +10,10 @@ class Estoque(models.Model):
 	update_at   		=	models.DateTimeField(verbose_name='Atualizado em', auto_now=True)
 
 	def __str__(self):
-		return self.descricao
+		return str(self.id)
 
 	class Meta:
 		db_table = 'estoque'
 		verbose_name = 'Estoque'
 		verbose_name_plural = 'Estoques'
-		ordering = ['escola_id']
+		ordering = ['escola']

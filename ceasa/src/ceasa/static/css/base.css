@@ -14,7 +14,7 @@ html, body {
 }
 
 nav {
-	background-color: #316331;
+	background-color: #222;
 }
 
 nav img {
@@ -39,10 +39,14 @@ nav li a i {
 }
 
 footer {
-	background-color: #316331;
+	background-color: #222;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%; 
 }
 
 footer p {
 	color: #FFF;
-	font-size: 0.8em;
+	font-size: 0.85em;
 }

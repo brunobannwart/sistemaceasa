@@ -2,12 +2,16 @@
 {% load static %}
 
 {% block formulario %}
-	<div>
-		<img src='{% static "assets/padlock.svg" %}' class='rounded mx-auto d-block' alt='' />
-		<p class='text-muted text-justify' style='margin-top: 1.5em'>
-			Para recuperar as suas informações de acesso é muito simples. 
-			Basta contatar responsáveis do CEASA e informar a situação.
-		</p>
+<div>
+	<img src='{% static "assets/padlock.svg" %}' class='rounded mx-auto d-block' alt='' />
+	<p class='text-muted text-justify' style='margin-top: 1.5em'>
+		Para recuperar as suas informações de acesso é muito simples. 
+		Basta clicar em <b>Redefinir senha</b> a seguir e informar seu CPF. Um email será enviado com uma nova senha.
+	</p>
+
+	<div class='form-row'>
 		<button class='btn btn-link' onclick='window.location.href=`{% url "login" %}`'>Voltar</button>
+		<button class='btn btn-link' onclick='window.location.href=`{% url "reset" %}`'>Redefinir senha</button>
 	</div>
+</div>
 {% endblock %}

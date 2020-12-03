@@ -3,9 +3,12 @@ from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 from .backend import LoginBackend
-from .forms import LoginForm, TrocarSenhaForm
+from .forms import LoginForm, TrocarSenhaForm, RedefinirForm
+from .utils import send_mail, random_password, hash_password
+
 from usuario.models import Usuario
 
 @csrf_protect
@@ -57,35 +60,84 @@ def login_view(request):
 def forgot_view(request):
 	return render(request, 'login/forgot.html', {})
 
+@csrf_protect
+def reset_view(request):
+	if request.method == 'POST':
+		formulario = RedefinirForm(request.POST)
+
+		if formulario.is_valid():
+			campos	= 	formulario.clean_form()
+
+			try:
+				usuario = Usuario.objects.get(cpf=campos['cpf'])
+				
+				contexto = {
+					'nome':	usuario.nome.upper(),
+					'senha': random_password('0123456789', 6)
+				}
+
+				send_mail('Esqueci minha senha', 'option/email.html', 
+					contexto, [usuario.email], settings.DEFAULT_FROM_EMAIL
+				)
+
+				usuario.senha_hash = hash_password(contexto['senha'])
+				usuario.save()
+
+				return redirect('login')
+
+			except Exception as e:
+				formulario = request.POST
+				erro = 'Algum erro ocorreu'
+
+		else:
+			formulario = request.POST
+			erro = 'Preencher campos corretamente'
+
+	else:
+		formulario = {
+			'cpf': '',
+		}
+
+		erro = None
+
+	contexto = {
+		'form': formulario,
+		'erro': erro,
+	}
+
+	contexto.update(csrf(request))
+	return render(request, 'login/reset.html', contexto)
+
 @login_required(login_url='login')
 @csrf_protect
 def changepassword_view(request):
 	if request.method == 'POST':
-		try:
-			formulario = TrocarSenhaForm(request.POST)
+		formulario = TrocarSenhaForm(request.POST)
 
-			if formulario.is_valid():
-				campos 			= formulario.clean_form()
-				cpf 			= campos['cpf']
-				nova_senha 		= campos['nova_senha']
-				confirma_senha 	= campos['confirma_senha']
+		if formulario.is_valid():
+			campos 			= formulario.clean_form()
+			cpf 			= campos['cpf']
+			nova_senha 		= campos['nova_senha']
+			confirma_senha 	= campos['confirma_senha']
 
-				usuario = Usuario.objects.get(cpf=cpf)
+			try:
+				usuario = Usuario.objects.get(cpf=campos['cpf'])
 
-				if nova_senha == confirma_senha:
-					usuario.senha_hash = nova_senha
+				if campos['nova_senha'] == campos['confirma_senha']:
+					usuario.senha_hash = campos['nova_senha']
 					usuario.save()
 					return redirect('schoollist')
 
 				else:
 					formulario = request.POST
 					erro = 'Senhas não são idênticas'
-			else:
+
+			except:
 				formulario = request.POST
-				erro = 'Preencher campos corretamente'
-		except:
+				erro = 'CPF não cadastrado'
+		else:
 			formulario = request.POST
-			erro = 'CPF não cadastrado'
+			erro = 'Preencher campos corretamente'
 	else:
 		formulario = {
 			'cpf': '',

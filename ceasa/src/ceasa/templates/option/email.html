@@ -25,11 +25,18 @@
 	}
 
 	.header {
-		padding: 40px 0 30px 0;
-		align-items: center;
-		justify-content: center;
+		padding: 40px 30px 30px 30px;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	strong {
+		color: #FFF;
+		font-size: 36px;
+		font-weight: bold;
+		font-family: Arial, sans-serif;
 	}
 
 	.logo {
@@ -87,21 +94,15 @@
 		>
 			<tr class='top'>
 				<td class='header'>
-					<img 
-						src='{% static "assets/logo.png" %}' 
-						width='300'
-						height='230'
-						class='logo' 
-					/>
+					<strong>CEASA</strong>
 				</td>
 			</tr>
 			<tr class='middle'>
 				<td class='content'>
 					<table 
-						border='1'
 						cellspacing='0'
 						cellpadding='0'
-						width='100%' 
+						class='wrapper'
 					>
 						<tr>
   							<td
@@ -112,6 +113,13 @@
  						</tr>
  						<tr>
   							<td class='message' style='padding: 20px 0 30px 0;'>
+  								Olá, {{ nome }} <br/><br/>
+
+  								Você está recebendo este email porque solicitou uma alteração de senha.
+  								Estamos disponibilizando uma nova,
+  								que poderá ser alterada quando estiver conectado com a plataforma. <br/><br/>
+
+  								Esperamos que esteja satisfeito e que continue usufruindo de nosso serviço. Qualquer dificuldade adicional, por favor entre em contato imediatamente. <br/><br/>
    							</td>
  						</tr>
  						<tr>
@@ -127,11 +135,11 @@
 					<table
 						cellpadding='0'
 						cellspacing='0'
-						width='100%'
+						class='wrapper'
 					>
 						<tr>
 							<td class='contact'>
-								&reg; CEASA {% now 'Y' %} <br/>
+								&reg; {% now 'Y' %} <br/>
 								Obrigado por entrar em contato conosco
 							</td>
 						</tr>

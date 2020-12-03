@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 
-from ceasa.views import login_view, forgot_view, changepassword_view, logout_view
+from ceasa.views import login_view, forgot_view, reset_view, changepassword_view, logout_view
 from escola.views import schoollist_view, schoolcreate_view, schooledit_view, schooldelete_view
 from estoque.views import stocklist_view, stockcreate_view, stockedit_view, stockdelete_view
 from extrato.views import extractlist_view, extractcreate_view, extractedit_view, extractdelete_view
@@ -31,6 +31,7 @@ urlpatterns = [
 
     path('', login_view, name='login'),
     path('esquecidados/', forgot_view, name='forgot'),
+    path('redefinir/', reset_view, name='reset'),
     path('trocarsenha/', changepassword_view, name='changepassword'),
     path('sair/', logout_view, name='logout'),
 

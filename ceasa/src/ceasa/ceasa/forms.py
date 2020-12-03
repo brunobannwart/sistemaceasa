@@ -34,3 +34,11 @@ class TrocarSenhaForm(forms.Form):
 			'nova_senha': nova_senha_hash,
 			'confirma_senha': confirma_senha_hash,
 		}
+
+class RedefinirForm(forms.Form):
+	cpf = forms.CharField(label='CPF', max_length=14)
+
+	def clean_form(self):
+		cpf = self.cleaned_data.get('cpf')
+		
+		return { 'cpf': cpf }

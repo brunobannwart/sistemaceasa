@@ -31,13 +31,18 @@ def usercreate_view(request):
 		if formulario.is_valid():
 			campos = formulario.clean_form()
 
-			if Usuario.objects.filter(cpf=campos['cpf']):
-				formulario = request.POST
-				erro = 'Já existe usuário com esse CPF'
+			if Usuario.objects.filter(cpf=campos['cpf']) | Usuario.objects.filter(email=campos['email']):
+				if Usuario.objects.filter(cpf=campos['cpf']):
+					formulario = request.POST
+					erro = 'Já existe usuário com esse CPF'
+
+				else:
+					formulario = request.POST
+					erro = 'Já existe usuário com esse e-mail'
 
 			else:
 				try:
-					novo_usuario = Usuario.objects.create(nome=campos['nome'], cpf=campos['cpf'], 
+					novo_usuario = Usuario.objects.create(nome=campos['nome'], cpf=campos['cpf'], email=campos['email'],
 						telefone=campos['telefone'], tipo=campos['tipo'], senha_hash=campos['senha'], escola=campos['escola'])
 					novo_usuario.save()
 
@@ -50,6 +55,7 @@ def usercreate_view(request):
 		formulario = {
 			'nome': '',
 			'cpf': '',
+			'email': '',
 			'telefone': '',
 			'senha'
 			'tipo': '',
@@ -87,6 +93,7 @@ def useredit_view(request, id):
 				editar_usuario = Usuario.objects.get(id=id)
 				editar_usuario.nome = campos['nome']
 				editar_usuario.cpf = campos['cpf']
+				editar_usuario.email = campos['email']
 				editar_usuario.telefone = campos['telefone']
 
 				if request.POST.get('senha') != '':

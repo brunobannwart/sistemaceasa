@@ -31,7 +31,6 @@
 							id='escola'
 							name='escola'
 							required
-							value='{{ form.escola }}'
 						>
 							<option hidden>Selecione uma escola</option>
 							{% for escola in escolas %}
@@ -46,7 +45,6 @@
 							id='produto'
 							name='produto'
 							required
-							value='{{ form.produto }}'
 						>
 							<option hidden>Selecione um produto</option>
 							{% for produto in produtos %}
@@ -95,7 +93,6 @@
 							id='entrada_saida'
 							name='entrada_saida'
 							required
-							value='{{ form.entrada_saida }}'
 						>
 							<option hidden>Entrada ou saída?</option>
 							<option value='E'>Entrada</option>
@@ -109,7 +106,6 @@
 							id='tipo_mov'
 							name='tipo_mov'
 							required
-							value='{{ form.tipo_mov }}'
 						>
 							<option hidden>Selecione o tipo de movimento</option>
 							<option value='RO'>RO</option>
@@ -165,4 +161,12 @@
 		</div>
 	</div>
 </div>
+<script>
+	$(document).ready(function() {
+		$('#escola').find('option[value="{{ form.escola.id }}"]').attr('selected', true);
+		$('#produto').find('option[value="{{ form.produto.id }}"]').attr('selected', true);
+		$('#entrada_saida').find('option[value="{{ form.entrada_saida }}"]').attr('selected', true);
+		$('#tipo_mov').find('option[value="{{ form.tipo_mov }}"]').attr('selected', true);
+	});
+</script>
 {% endblock %}

@@ -2,67 +2,12 @@
 {% load static %}
 
 {% block formulario %}
-<form method='post' action='.' autocomplete='off'>
-	{% csrf_token %}
-		<div class='form-group'>
-			<label for='cpf'>CPF</label>
-			<input 
-				type='text' 
-				class='form-control' 
-				id='cpf'
-				name='cpf'
-				placeholder='Preencha com o seu CPF'
-				value='{{ form.cpf }}'
-				maxlength='14'
-				required
-				pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
-				onkeypress='mascaraCPF(this)' 
-				oninput='setCustomValidity("")'
-				oninvalid='setCustomValidity("Preencher com o formato padrao de CPF")' 
-			/>
-		</div>
-
-		<div class='form-row'>
-			<div class='col'>
-				<label for='nova_senha'>Nova Senha</label>
-				<input
-					type='password' 
-					class='form-control'
-					id='nova_senha' 
-					name='nova_senha'
-					maxlength='100'
-					placeholder='Preencha com a sua nova senha' 
-					value='{{ form.nova_senha }}'
-					required
-					oninput='setCustomValidity("")'
-					oninvalid='setCustomValidity("Preencher campo obrigatório")' 
-				/>
-			</div>
-
-			<div class='col'>
-				<label for='confirma_senha'>Confirmar Senha</label>
-				<input
-					type='password' 
-					class='form-control'
-					id='confirma_senha' 
-					name='confirma_senha'
-					maxlength='100'
-					placeholder='Preencha confirmando a sua nova senha' 
-					value='{{ form.confirma_senha }}'
-					required
-					oninput='setCustomValidity("")'
-					oninvalid='setCustomValidity("Preencher campo obrigatório")'  
-				/>
-			</div>
-		</div>
-
-		<div class='form-row'>
-			<div class='col'>
-				<button type='button' class='btn btn-danger btn-lg btn-block' style='margin-top: 1.5em;' onclick='window.location.href=`{% url "login" %}`'>Voltar</button>
-			</div>
-			<div class='col'>
-				<button type='submit' class='btn btn-success btn-lg btn-block'>Salvar</button>
-			</div>
-		</div>
-</form>
+	<div>
+		<img src='{% static "assets/padlock.svg" %}' class='rounded mx-auto d-block' alt='' />
+		<p class='text-muted text-justify' style='margin-top: 1.5em'>
+			Para recuperar as suas informações de acesso é muito simples. 
+			Basta contatar responsáveis do CEASA e informar a situação.
+		</p>
+		<button class='btn btn-link' onclick='window.location.href=`{% url "login" %}`'>Voltar</button>
+	</div>
 {% endblock %}

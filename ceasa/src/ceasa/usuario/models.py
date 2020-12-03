@@ -5,6 +5,7 @@ import hashlib
 class Usuario(models.Model):
 	nome 				= 	models.CharField(verbose_name='Nome', max_length=100)
 	cpf					= 	models.CharField(verbose_name='CPF', max_length=14, unique=True)
+	email				=	models.EmailField(verbose_name='Email', max_length=45, unique=True)
 	telefone 			= 	models.CharField(verbose_name='Telefone', max_length=15)
 	senha_hash			=	models.CharField(verbose_name='Senha', max_length=64)
 	tipo				=	models.CharField(verbose_name='Tipo', max_length=1)

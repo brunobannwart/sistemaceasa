@@ -6,6 +6,7 @@ import hashlib
 class UsuarioForm(forms.Form):
 	nome 		=	forms.CharField(label='Nome', max_length=100)
 	cpf 		=	forms.CharField(label='CPF', max_length=14)
+	email 		=	forms.EmailField(label='Email', max_length=45)
 	telefone 	=	forms.CharField(label='Telefone', max_length=15)
 	senha 		=	forms.CharField(label='Senha', max_length=100, widget=forms.PasswordInput)
 	tipo 		=	forms.CharField(label='Tipo', max_length=1)
@@ -14,6 +15,7 @@ class UsuarioForm(forms.Form):
 	def clean_form(self):
 		nome 		=	self.cleaned_data.get('nome')
 		cpf			= 	self.cleaned_data.get('cpf')
+		email 		=	self.cleaned_data.get('email')
 		telefone	=	self.cleaned_data.get('telefone')
 		senha		=	self.cleaned_data.get('senha')
 		tipo 		=	self.cleaned_data.get('tipo')
@@ -24,6 +26,7 @@ class UsuarioForm(forms.Form):
 		return {
 			'nome': nome,
 			'cpf': cpf,
+			'email': email,
 			'telefone': telefone,
 			'senha': senha_hash,
 			'tipo': tipo,
@@ -33,6 +36,7 @@ class UsuarioForm(forms.Form):
 class UsuarioEditarForm(forms.Form):
 	nome 		=	forms.CharField(label='Nome', max_length=100)
 	cpf 		=	forms.CharField(label='CPF', max_length=14)
+	email 		=	forms.EmailField(label='Email', max_length=45)
 	telefone 	=	forms.CharField(label='Telefone', max_length=15)
 	senha 		=	forms.CharField(label='Senha', max_length=100, widget=forms.PasswordInput, required=False)
 	tipo 		=	forms.CharField(label='Tipo', max_length=1)
@@ -41,6 +45,7 @@ class UsuarioEditarForm(forms.Form):
 	def clean_form(self):
 		nome 		=	self.cleaned_data.get('nome')
 		cpf			= 	self.cleaned_data.get('cpf')
+		email 		=	self.cleaned_data.get('email')
 		telefone	=	self.cleaned_data.get('telefone')
 		senha		=	self.cleaned_data.get('senha')
 		tipo 		=	self.cleaned_data.get('tipo')
@@ -51,6 +56,7 @@ class UsuarioEditarForm(forms.Form):
 		return {
 			'nome': nome,
 			'cpf': cpf,
+			'email': email,
 			'telefone': telefone,
 			'senha': senha_hash,
 			'tipo': tipo,

@@ -39,22 +39,23 @@
 					<input id='cpf_valido' name='cpf_valido' type='hidden' value='0' />
 				{% endif %}
 
+				<div class='form-group'>
+					<label for='nome'>Nome</label>
+					<input
+						type='text'
+						class='form-control'
+						id='nome'
+						name='nome'
+						maxlength='100'
+						value='{{ form.nome }}'
+						placeholder='Preencha com o nome do usuário'
+						required
+						oninput='setCustomValidity("")'
+						oninvalid='setCustomValidity("Preencher campo obrigatório")' 
+					/>
+				</div>
+
 				<div class='form-row'>
-					<div class='col'>
-						<label for='nome'>Nome</label>
-						<input
-							type='text'
-							class='form-control'
-							id='nome'
-							name='nome'
-							maxlength='100'
-							value='{{ form.nome }}'
-							placeholder='Preencha com o nome do usuário'
-							required
-							oninput='setCustomValidity("")'
-							oninvalid='setCustomValidity("Preencher campo obrigatório")' 
-						/>
-					</div>
 					<div class='col'>
 						<label for='cpf'>CPF</label>
 						{% if editar is True %}
@@ -87,6 +88,35 @@
 								required
 								onkeypress='mascaraCPF(this)'
 								onblur='validarCPF(this)'
+								oninput='setCustomValidity("")'
+								oninvalid='setCustomValidity("Preencher campo obrigatório")'
+							/>
+						{% endif %}
+					</div>
+					<div class='col'>
+						<label for='email'>E-mail</label>
+						{% if editar is True %}
+							<input
+								type='email'
+								class='form-control'
+								id='email'
+								name='email'
+								maxlength='45'
+								value='{{ form.email }}'
+								required
+								readonly
+								oninput='setCustomValidity("")'
+								oninvalid='setCustomValidity("Preencher campo obrigatório")'
+							/>
+						{% else %}
+							<input
+								type='email'
+								class='form-control'
+								id='email'
+								name='email'
+								maxlength='45'
+								value='{{ form.email }}'
+								required
 								oninput='setCustomValidity("")'
 								oninvalid='setCustomValidity("Preencher campo obrigatório")'
 							/>
@@ -148,9 +178,8 @@
 							id='tipo' 
 							name='tipo'
 							required
-							value='{{ form.tipo }}'
 						>
-							<option selected hidden>Selecione um tipo</option>
+							<option hidden>Selecione um tipo</option>
 							<option value='E'>Escolas de Campinas</option>
 							<option value='S'>Secretária de Educação</option>
 							<option value='M'>Ministério Público</option>
@@ -164,9 +193,8 @@
 							id='escola'
 							name='escola'
 							disabled 
-							value='{{ form.escola }}'
 						>
-							<option selected hidden>Selecione uma escola</option>
+							<option value='' disabled hidden>Selecione uma escola</option>
 							{% for escola in escolas %}
 								<option value='{{ escola.id }}'>{{ escola.nome }}</option>
 							{% endfor %}
@@ -187,12 +215,27 @@
 	</div>
 </div>
 <script>
+	$(document).ready(function() {
+		$('#tipo').find('option[value="{{ form.tipo }}"]').attr('selected', true);
+
+		if ($('#tipo').val() == 'E') {
+			$('#escola').prop('disabled', false);
+			$('#escola').find('option[value="{{ form.escola.id }}"]').attr('selected', true);
+
+		} else {
+			$('#escola').prop('disabled', true);
+			$('#escola').val('');
+		}
+	});
+
 	$('#tipo').change(function() {
 		if($(this).val() == 'E') {
 			$('#escola').prop('disabled', false);
+			
 		} else {
 			$('#escola').prop('disabled', true);
+			$('#escola').val('');
 		}
-	})
+	});
 </script>
 {% endblock %}

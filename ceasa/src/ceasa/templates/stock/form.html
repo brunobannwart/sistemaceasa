@@ -33,7 +33,6 @@
 								name='escola'
 								readonly
 								required
-								value='{{ form.escola }}'
 							>
 								<option hidden>Selecione uma escola</option>
 								{% for escola in escolas %}
@@ -46,7 +45,6 @@
 								id='escola'
 								name='escola'
 								required
-								value='{{ form.escola }}'
 							>
 								<option hidden>Selecione uma escola</option>
 								{% for escola in escolas %}
@@ -64,7 +62,6 @@
 								name='produto'
 								readonly
 								required
-								value='{{ form.produto }}'
 							>
 								<option hidden>Selecione um produto</option>
 								{% for produto in produtos %}
@@ -77,7 +74,6 @@
 								id='produto'
 								name='produto'
 								required
-								value='{{ form.produto }}'
 							>
 								<option hidden>Selecione um produto</option>
 								{% for produto in produtos %}
@@ -133,4 +129,10 @@
 		</div>
 	</div>
 </div>
+<script>
+	$(document).ready(function() {
+		$('#escola').find('option[value="{{ form.escola.id }}"]').attr('selected', true);
+		$('#produto').find('option[value="{{ form.produto.id }}"]').attr('selected', true);
+	});
+</script>
 {% endblock %}

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 
 from .backend import LoginBackend
 from .forms import LoginForm, TrocarSenhaForm
@@ -53,7 +54,10 @@ def login_view(request):
 	contexto.update(csrf(request))
 	return render(request, 'login/index.html', contexto)
 
+def forgot_view(request):
+	return render(request, 'login/forgot.html', {})
 
+@login_required(login_url='login')
 @csrf_protect
 def changepassword_view(request):
 	if request.method == 'POST':
@@ -69,9 +73,9 @@ def changepassword_view(request):
 				usuario = Usuario.objects.get(cpf=cpf)
 
 				if nova_senha == confirma_senha:
-					usuario.senha = nova_senha
-					usuarios.save()
-					return redirect('login')
+					usuario.senha_hash = nova_senha
+					usuario.save()
+					return redirect('schoollist')
 
 				else:
 					formulario = request.POST
@@ -97,7 +101,7 @@ def changepassword_view(request):
 	}
 
 	contexto.update(csrf(request))
-	return render(request, 'login/forgot.html', contexto)
+	return render(request, 'option/changepassword.html', contexto)
 
 def logout_view(request):
 	try:

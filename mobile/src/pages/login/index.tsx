@@ -15,7 +15,13 @@ import {
 import Logo from '../../assets/logo.png';
 import './login.css';
 
-const Login: React.FC = () => {
+interface Props {
+	efetuarLogin: ((cpf: string, senha: string) => void),
+}
+
+const Login: React.FC<Props> = ({
+	efetuarLogin
+}) => {
 	const [cpf, setCPF] = useState('');
 	const [senha, setSenha] = useState('');
 
@@ -35,7 +41,7 @@ const Login: React.FC = () => {
 					<img src={Logo} alt='CEASA' />
 				</header>
 
-				<form onSubmit={() => {}} autoComplete='false'>
+				<form className='login' onSubmit={() => efetuarLogin(cpf, senha)} autoComplete='false'>
 					<IonGrid>
 						<IonRow>
 							<IonCol>
@@ -77,8 +83,8 @@ const Login: React.FC = () => {
 							</IonButton>
 						</IonRow>
 					</IonGrid>
+					<p>Não compartilhe seus dados com ninguém</p>
 				</form>
-				<p>Não compartilhe seus dados com ninguém</p>
 			</IonContent>
 		</IonApp>
 	)

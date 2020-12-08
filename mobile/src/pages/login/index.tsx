@@ -13,6 +13,7 @@ import {
 	IonCol,
 } from '@ionic/react';
 import Logo from '../../assets/logo.png';
+import './login.css';
 
 const Login: React.FC = () => {
 	const [cpf, setCPF] = useState('');
@@ -29,17 +30,22 @@ const Login: React.FC = () => {
 				</IonToolbar>
 			</IonHeader>
 			<IonContent className='ion-padding'>
-				<img src={Logo} alt='CEASA' />
+				<header>
+					<h1>Bem-vindo</h1>
+					<img src={Logo} alt='CEASA' />
+				</header>
 
-				<form onSubmit={() => { }} autoComplete='false'>
+				<form onSubmit={() => {}} autoComplete='false'>
 					<IonGrid>
 						<IonRow>
 							<IonCol>
 								<IonLabel>CPF</IonLabel>
 								<IonInput
+									type='text'
 									placeholder='Informe o seu CPF'
 									value={cpf}
 									maxlength={14}
+									pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
 									onChange={
 										(e: any) => setCPF(e.target.value)
 									}
@@ -50,6 +56,7 @@ const Login: React.FC = () => {
 							<IonCol>
 								<IonLabel>Senha</IonLabel>
 								<IonInput
+									type='password'
 									placeholder='Informe a sua senha'
 									value={senha}
 									maxlength={50}
@@ -60,15 +67,18 @@ const Login: React.FC = () => {
 							</IonCol>
 						</IonRow>
 						<IonRow>
-							<IonButton 
-								type='submit' 
+							<IonButton
+								type='submit'
 								color='success'
+								expand='block'
+								shape='round'
 							>
 								Acessar
 							</IonButton>
 						</IonRow>
 					</IonGrid>
 				</form>
+				<p>Não compartilhe seus dados com ninguém</p>
 			</IonContent>
 		</IonApp>
 	)

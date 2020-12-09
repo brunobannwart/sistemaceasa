@@ -12,6 +12,7 @@ import { home, list, restaurant } from 'ionicons/icons';
 
 import Backend from './services/backend';
 
+import Alterar from './pages/alterar';
 import Historico from './pages/historico';
 import Login from './pages/login';
 import Perfil from './pages/perfil';
@@ -57,6 +58,7 @@ const App: React.FC = () => {
 				<IonReactRouter>
 					<Switch>
 						<Route path='/' exact component={Romaneio} />
+						<Route path='/alterar' component={Alterar} />
 						<Route path='/historico' component={Historico} />
 						<Route path='/perfil' render={
 							() => <Perfil efetuarLogout={tratarLogout} />

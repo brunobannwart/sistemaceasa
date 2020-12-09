@@ -10,7 +10,7 @@ import {
     IonLabel,
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
-import { logOut, time } from 'ionicons/icons';
+import { construct, logOut, time } from 'ionicons/icons';
 import Logo from '../../assets/logo.png';
 import './perfil.css';
 
@@ -38,6 +38,12 @@ const Perfil: React.FC<Props> = ({
                     <img src={Logo} alt='CEASA' />
                 </header>
                 <IonList>
+                    <IonItem onClick={() => {
+                        navegar.push('/alterar');
+                    }}>
+                        <IonIcon icon={construct} />
+                        <IonLabel>Alterar seus dados</IonLabel>
+                    </IonItem>
                     <IonItem onClick={() => {
                         navegar.push('/historico');
                     }}>

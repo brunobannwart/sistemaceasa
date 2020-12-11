@@ -9,23 +9,39 @@ import {
     IonCol,
     IonLabel,
     IonInput,
+    IonDatetime,
     IonButton,
 } from '@ionic/react';
+import Backend from '../../services/backend';
 import './romaneio.css';
 
 const Romaneio: React.FC = () => {
     const [numeroRomaneio, setNumeroRomaneio] = useState('');
+    const [dataHora] = useState(new Date().toString());
     const [codigoProduto, setCodigoProduto] = useState('');
-    const [quantidade, setQuantidade] = useState(null);
+    const [quantidade, setQuantidade] = useState('');
 
     async function tratarSubmit() {
+        const formulario = {
+            'numero_romaneio': numeroRomaneio,
+            'data_hora': dataHora,
+            'codigo_produto': codigoProduto,
+            'quantidade': parseInt(quantidade, 10),
+        }
 
+        await Backend.post('/romaneio', formulario)
+            .then(resposta => {
+
+            })
+            .catch(erro => {
+
+            });
     }
 
     return (
         <>
             <IonHeader>
-                <IonToolbar 
+                <IonToolbar
                     color='tertiary'
                     className='ion-text-center ion-padding-top'
                 >
@@ -41,11 +57,23 @@ const Romaneio: React.FC = () => {
                                 <IonInput
                                     type='text'
                                     required
-                                    onChange={(e: any) => {
-                                        setNumeroRomaneio(e.target.value)
-                                    }}
+                                    onIonChange={e => setNumeroRomaneio(e.detail.value!)}
                                     value={numeroRomaneio}
                                     placeholder='Informe o número do romaneio'
+                                />
+                            </IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol>
+                                <IonLabel>Data e hora</IonLabel>
+                                <IonDatetime
+                                    value={dataHora}
+                                    displayFormat='DD/MM/YYYY HH:mm'
+                                    min='2020-01-01'
+                                    mode='ios'
+                                    cancelText='Cancelar'
+                                    doneText='OK'
+                                    readonly
                                 />
                             </IonCol>
                         </IonRow>
@@ -55,9 +83,7 @@ const Romaneio: React.FC = () => {
                                 <IonInput
                                     type='text'
                                     required
-                                    onChange={(e: any) => {
-                                        setCodigoProduto(e.target.value)
-                                    }}
+                                    onIonChange={e => setCodigoProduto(e.detail.value!)}
                                     value={codigoProduto}
                                     placeholder='Informe o código do produto'
                                 />
@@ -67,12 +93,10 @@ const Romaneio: React.FC = () => {
                             <IonCol>
                                 <IonLabel>Quantidade</IonLabel>
                                 <IonInput
-                                    type='number'
+                                    type='text'
                                     required
-                                    onChange={(e: any) => {
-                                        setQuantidade(e.target.value)
-                                    }}
-                                    min='0'
+                                    onIonChange={e => setQuantidade(e.detail.value!)}
+                                    pattern='[0-9]*'
                                     value={quantidade}
                                     placeholder='Informe a quantidade do produto'
                                 />

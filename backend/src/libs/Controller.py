@@ -18,3 +18,6 @@ class Controller:
 				return None
 		else:
 			return None
+
+	def alterarSenha(self, cpf, senha):
+		return self.db.alterarSenhaUsuario(cpf, senha)

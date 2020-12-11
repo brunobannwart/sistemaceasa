@@ -63,9 +63,7 @@ const Alterar: React.FC = () => {
                                     maxlength={14}
                                     pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
                                     required
-                                    onChange={
-                                        (e: any) => setCPF(e.target.value)
-                                    }
+                                    onIonChange={e => setCPF(e.detail.value!)}
                                 />
                             </IonCol>
                         </IonRow>
@@ -78,9 +76,7 @@ const Alterar: React.FC = () => {
                                     value={novaSenha}
                                     maxlength={50}
                                     required
-                                    onChange={
-                                        (e: any) => setNovaSenha(e.target.value)
-                                    }
+                                    onIonChange={e => setNovaSenha(e.detail.value!)}
                                 />
                             </IonCol>
                         </IonRow>
@@ -93,9 +89,7 @@ const Alterar: React.FC = () => {
                                     value={confirmaSenha}
                                     maxlength={50}
                                     required
-                                    onChange={
-                                        (e: any) => setConfirmaSenha(e.target.value)
-                                    }
+                                    onIonChange={e => setConfirmaSenha(e.detail.value!)}
                                 />
                             </IonCol>
                         </IonRow>
@@ -109,8 +103,6 @@ const Alterar: React.FC = () => {
 							</IonButton>
                         </IonRow>
                     </IonGrid>
-
-
                 </form>
             </IonContent>
         </>

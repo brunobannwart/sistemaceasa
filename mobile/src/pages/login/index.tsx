@@ -52,9 +52,7 @@ const Login: React.FC<Props> = ({
 									value={cpf}
 									maxlength={14}
 									pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
-									onChange={
-										(e: any) => setCPF(e.target.value)
-									}
+									onIonChange={e => setCPF(e.detail.value!)}
 								/>
 							</IonCol>
 						</IonRow>
@@ -66,9 +64,7 @@ const Login: React.FC<Props> = ({
 									placeholder='Informe a sua senha'
 									value={senha}
 									maxlength={50}
-									onChange={
-										(e: any) => setSenha(e.target.value)
-									}
+									onIonChange={e => setSenha(e.detail.value!)}
 								/>
 							</IonCol>
 						</IonRow>

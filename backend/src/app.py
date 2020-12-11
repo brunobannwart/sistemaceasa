@@ -27,4 +27,19 @@ def efetuar_login():
 	else:
 		return tratar_erro('Não foi possível efetuar login')
 
+@app.route('/alterar', methods=['POST'])
+def alterar_senha():
+	cpf	= request.form['cpf']
+	nova_senha = request.form['nova_senha']
+	senha_hash = hashlib.sha256(nova_senha.encode()).hexdigest()
+
+	resultado = app.controller.alterarSenha(cpf, senha_hash)
+
+	if resultado:
+		saida = json.dumps({ 'mensagem': 'Alterado com sucesso '})
+		return tratar_sucesso(saida)
+		
+	else:
+		return tratar_erro('Não foi possível alterar')
+
 app.run(host=app.config['FLASK_RUN_HOST'], port=app.config['FLASK_RUN_PORT'])

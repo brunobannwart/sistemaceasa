@@ -11,22 +11,33 @@ class Database:
 		self.cursor.execute("CREATE TABLE IF NOT EXISTS `requisicao`(`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT, `codigo_escola` INTEGER, `numero_requisicao` VARCHAR(100), `codigo_produto` VARCHAR(12), `quantidade` INTEGER, `codigo_usuario` INTEGER) ENGINE=InnoDB")
 
 	def obterUsuario(self, cpf):
-		self.cursor.execute("SELECT * FROM `usuario` WHERE cpf=%s", [cpf])
-		resultado = self.cursor.fetchone()
+		try:
+			self.cursor.execute("SELECT * FROM `usuario` WHERE cpf=%s", [cpf])
+			resultado = self.cursor.fetchone()
 
-		if resultado != None:
-			usuario = {
-				'id': resultado[0],
-				'nome': resultado[1],
-				'cpf': resultado[2],
-				'email': resultado[3],
-				'telefone': resultado[4],
-				'senha_hash': resultado[5],
-				'tipo': resultado[6],
-				'escola': resultado[7]
-			}
+			if resultado != None:
+				usuario = {
+					'id': resultado[0],
+					'nome': resultado[1],
+					'cpf': resultado[2],
+					'email': resultado[3],
+					'telefone': resultado[4],
+					'senha_hash': resultado[5],
+					'tipo': resultado[6],
+					'escola': resultado[7]
+				}
 
-			return usuario
-		else:
+				return usuario
+			else:
+				return None
+				
+		except:
 			return None
-			 
+	
+	def alterarSenhaUsuario(self, cpf, senha):
+		try:
+			self.cursor.execute("UPDATE `usuario` SET `senha_hash`=%s WHERE `cpf`=%s", [senha, cpf])
+			return True
+
+		except:
+			return False

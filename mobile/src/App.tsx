@@ -10,6 +10,7 @@ import { Route, Switch } from 'react-router-dom';
 import { IonReactRouter } from '@ionic/react-router';
 import { home, list, restaurant } from 'ionicons/icons';
 
+import Alerta from './services/alert';
 import Backend from './services/backend';
 
 import Alterar from './pages/alterar';
@@ -38,12 +39,15 @@ import './styles/variables.css';
 const App: React.FC = () => {
 	const [autenticado, setAutenticar] = useState(false);
 
-	async function tratarLogin(cpf: string, senha: string) {
+	async function tratarLogin(evento: React.FormEvent, cpf: string, senha: string) {
+		evento.preventDefault();
+		
 		await Backend.post('/login', { cpf: cpf, senha: senha })
 			.then(resposta => {
 				setAutenticar(true);
 			})
 			.catch(erro => {
+				Alerta('Não foi possível efetuar o login. Tente novamente');
 				setAutenticar(false);
 			});
 	}
@@ -84,7 +88,7 @@ const App: React.FC = () => {
 			</IonApp>
 		)
 	} else {
-		return <Login efetuarLogin={(cpf, senha) => tratarLogin(cpf, senha)} />;
+		return <Login efetuarLogin={(evento, cpf, senha) => tratarLogin(evento, cpf, senha)} />;
 	}
 }
 

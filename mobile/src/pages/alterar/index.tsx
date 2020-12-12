@@ -12,6 +12,7 @@ import {
     IonToolbar
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
+import Alerta from '../../services/alert';
 import Backend from '../../services/backend';
 import './alterar.css';
 
@@ -22,22 +23,54 @@ const Alterar: React.FC = () => {
     const [novaSenha, setNovaSenha] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
 
-    async function tratarSubmit() {
-        const formulario = {
-            'cpf': cpf,
-            'nova_senha': novaSenha,
-            'confirma_senha': confirmaSenha,
+    async function tratarSubmit(evento: React.FormEvent) {
+        evento.preventDefault();
+
+        if (novaSenha === confirmaSenha) {
+            const formulario = {
+                'cpf': cpf,
+                'nova_senha': novaSenha,
+            }
+
+            await Backend.post('/alterar', formulario)
+                .then(resposta => {
+
+                })
+                .catch(erro => {
+                    Alerta('Não foi possível alterar seus dados');
+                });
+
+            navegar.push('/perfil');
+        } else {
+            Alerta('Senhas não conferem');
+        }
+    }
+
+    function mascaraCampo(valor: string, mascara: string) {
+        let formatado, digitos, posição, novoCampo, tamanhoMascara, existeMascara, expressaoRegular;
+
+        expressaoRegular = /\-|\.|\/|\(|\)| /g;
+        posição = 0;
+        novoCampo = '';
+
+        digitos = valor.toString().replace(expressaoRegular, '');
+        tamanhoMascara = digitos.length;
+
+        for (let i = 0; i < tamanhoMascara; i += 1) {
+            existeMascara = ((mascara.charAt(i) === '-') || (mascara.charAt(i) === '.') || (mascara.charAt(i) === '/'))
+            existeMascara = existeMascara || ((mascara.charAt(i) === '(') || (mascara.charAt(i) === ')') || (mascara.charAt(i) === ' '))
+
+            if (existeMascara) {
+                novoCampo += mascara.charAt(i);
+                tamanhoMascara++;
+            } else {
+                novoCampo += digitos.charAt(posição);
+                posição++;
+            }
         }
 
-        await Backend.post('/alterar', formulario)
-            .then(resposta => {
-
-            })
-            .catch(erro => {
-
-            });
-
-        navegar.push('/perfil');
+        formatado = novoCampo;
+        return formatado;
     }
 
     return (
@@ -51,7 +84,11 @@ const Alterar: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className='ion-padding'>
-                <form className='alterar' onSubmit={() => tratarSubmit()} autoComplete='off'>
+                <form
+                    className='alterar'
+                    onSubmit={(evento: React.FormEvent) => tratarSubmit(evento)}
+                    autoComplete='off'
+                >
                     <IonGrid>
                         <IonRow>
                             <IonCol>
@@ -63,7 +100,7 @@ const Alterar: React.FC = () => {
                                     maxlength={14}
                                     pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
                                     required
-                                    onIonChange={e => setCPF(e.detail.value!)}
+                                    onIonChange={e => setCPF(mascaraCampo(e.detail.value!, '000.000.000-00'))}
                                 />
                             </IonCol>
                         </IonRow>

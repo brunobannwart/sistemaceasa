@@ -16,7 +16,7 @@ import Logo from '../../assets/logo.png';
 import './login.css';
 
 interface Props {
-	efetuarLogin: ((cpf: string, senha: string) => void),
+	efetuarLogin: ((evento: React.FormEvent, cpf: string, senha: string) => void),
 }
 
 const Login: React.FC<Props> = ({
@@ -24,6 +24,33 @@ const Login: React.FC<Props> = ({
 }) => {
 	const [cpf, setCPF] = useState('');
 	const [senha, setSenha] = useState('');
+
+	function mascaraCampo(valor: string, mascara: string) {
+		let formatado, digitos, posição, novoCampo, tamanhoMascara, existeMascara, expressaoRegular;
+
+		expressaoRegular = /\-|\.|\/|\(|\)| /g;
+		posição = 0;
+		novoCampo = '';
+
+		digitos = valor.toString().replace(expressaoRegular, '');
+		tamanhoMascara = digitos.length;
+
+		for (let i = 0; i < tamanhoMascara; i += 1) {
+			existeMascara = ((mascara.charAt(i) === '-') || (mascara.charAt(i) === '.') || (mascara.charAt(i) === '/'))
+			existeMascara = existeMascara || ((mascara.charAt(i) === '(') || (mascara.charAt(i) === ')') || (mascara.charAt(i) === ' '))
+
+			if (existeMascara) {
+				novoCampo += mascara.charAt(i);
+				tamanhoMascara++;
+			} else {
+				novoCampo += digitos.charAt(posição);
+				posição++;
+			}
+		}
+
+		formatado = novoCampo;
+		return formatado;
+	}
 
 	return (
 		<IonApp>
@@ -41,7 +68,11 @@ const Login: React.FC<Props> = ({
 					<img src={Logo} alt='CEASA' />
 				</header>
 
-				<form className='login' onSubmit={() => efetuarLogin(cpf, senha)} autoComplete='false'>
+				<form
+					className='login'
+					onSubmit={(evento: React.FormEvent) => efetuarLogin(evento, cpf, senha)}
+					autoComplete='false'
+				>
 					<IonGrid>
 						<IonRow>
 							<IonCol>
@@ -52,7 +83,7 @@ const Login: React.FC<Props> = ({
 									value={cpf}
 									maxlength={14}
 									pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
-									onIonChange={e => setCPF(e.detail.value!)}
+									onIonChange={e => setCPF(mascaraCampo(e.detail.value!, '000.000.000-00'))}
 								/>
 							</IonCol>
 						</IonRow>

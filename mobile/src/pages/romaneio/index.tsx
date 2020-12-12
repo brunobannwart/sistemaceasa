@@ -12,16 +12,22 @@ import {
     IonDatetime,
     IonButton,
 } from '@ionic/react';
+import { useHistory } from 'react-router-dom';
+import Alerta from '../../services/alert';
 import Backend from '../../services/backend';
 import './romaneio.css';
 
 const Romaneio: React.FC = () => {
+    const navegar = useHistory();
+
     const [numeroRomaneio, setNumeroRomaneio] = useState('');
     const [dataHora] = useState(new Date().toString());
     const [codigoProduto, setCodigoProduto] = useState('');
     const [quantidade, setQuantidade] = useState('');
 
-    async function tratarSubmit() {
+    async function tratarSubmit(evento: React.FormEvent) {
+        evento.preventDefault();
+
         const formulario = {
             'numero_romaneio': numeroRomaneio,
             'data_hora': dataHora,
@@ -31,10 +37,10 @@ const Romaneio: React.FC = () => {
 
         await Backend.post('/romaneio', formulario)
             .then(resposta => {
-
+                navegar.push('/perfil');
             })
             .catch(erro => {
-
+                Alerta('Não foi possível registrar romaneio');
             });
     }
 
@@ -49,7 +55,11 @@ const Romaneio: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className='ion-padding'>
-                <form className='romaneio' onSubmit={() => tratarSubmit()} autoComplete='off'>
+                <form
+                    className='romaneio'
+                    onSubmit={(evento: React.FormEvent) => tratarSubmit(evento)}
+                    autoComplete='off'
+                >
                     <IonGrid>
                         <IonRow>
                             <IonCol>

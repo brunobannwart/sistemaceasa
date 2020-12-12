@@ -12,18 +12,24 @@ import {
     IonCol,
     IonButton
 } from '@ionic/react';
+import { useHistory } from 'react-router-dom';
+import Alerta from '../../services/alert';
 import Backend from '../../services/backend';
 import './requisicao.css';
 
 const Requisição: React.FC = () => {
+    const navegar = useHistory();
+
     const [numeroDocumento, setNumeroDocumento] = useState('');
     const [dataHora] = useState(new Date().toString());
     const [codigoProduto, setCodigoProduto] = useState('');
     const [quantidade, setQuantidade] = useState('');
 
-    async function tratarSubmit() {
+    async function tratarSubmit(evento: React.FormEvent) {
+        evento.preventDefault();
+
         const formulario = {
-            'numero_documento': numeroDocumento,
+            'numero_requisicao': numeroDocumento,
             'data_hora': dataHora,
             'codigo_produto': codigoProduto,
             'quantidade': parseInt(quantidade, 10),
@@ -31,10 +37,10 @@ const Requisição: React.FC = () => {
 
         await Backend.post('/requisicao', formulario)
             .then(resposta => {
-
+                navegar.push('/perfil');
             })
             .catch(erro => {
-
+                Alerta('Não foi possível registrar requisição');
             });
     }
 
@@ -49,7 +55,11 @@ const Requisição: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className='ion-padding'>
-                <form className='requisicao' onSubmit={() => tratarSubmit()} autoComplete='off'>
+                <form
+                    className='requisicao'
+                    onSubmit={(evento: React.FormEvent) => tratarSubmit(evento)}
+                    autoComplete='off'
+                >
                     <IonGrid>
                         <IonRow>
                             <IonCol>

@@ -13,10 +13,10 @@ app.config.from_object('config.Config')
 app.controller = Controller(templates_dir)
 
 def tratar_sucesso(saida, status=200, mimetype='application/json'):
-	return Response(output=saida, status=status, mimetype=mimetype)
+	return Response(saida, status=status, mimetype=mimetype)
 
 def tratar_erro(saida, status=500, mimetype='application/json'):
-	return Response(output=saida, status=status, mimetype=mimetype)
+	return Response(saida, status=status, mimetype=mimetype)
 
 @app.route('/login', methods=['POST'])
 def efetuar_login():

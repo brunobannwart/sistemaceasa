@@ -27,7 +27,10 @@ const Redefinir: React.FC = () => {
     async function tratarSubmit(evento: React.FormEvent, cpf: string) {
         evento.preventDefault();
 
-        await Backend.post('/redefinir', { cpf: cpf })
+        const formulario = new FormData();
+        formulario.append('cpf', cpf);
+        
+        await Backend.post('/redefinir', formulario)
             .then(resposta => {
                 navegar.push('/');
             })

@@ -43,13 +43,17 @@ const App: React.FC = () => {
 	async function tratarLogin(evento: React.FormEvent, cpf: string, senha: string) {
 		evento.preventDefault();
 
-		await Backend.post('/login', { 'cpf': cpf, 'senha': senha })
+		const formulario = new FormData();
+
+		formulario.append('cpf', cpf);
+		formulario.append('senha', senha);
+
+		await Backend.post('/login', formulario)
 			.then(resposta => {
-				console.log(resposta);
+				const { cpf, escola_id, id } = resposta.data;
 				setAutenticar(true);
 			})
 			.catch(erro => {
-				console.log(erro.data);
 				Alerta('Não foi possível efetuar o login. Tente novamente');
 				setAutenticar(false);
 			});

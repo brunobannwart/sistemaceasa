@@ -30,12 +30,12 @@ const Romaneio: React.FC = () => {
     async function tratarSubmit(evento: React.FormEvent) {
         evento.preventDefault();
 
-        const formulario = {
-            'numero_romaneio': numeroRomaneio,
-            'data_hora': dataHora,
-            'codigo_produto': codigoProduto,
-            'quantidade': parseInt(quantidade, 10),
-        }
+        const formulario = new FormData();
+
+        formulario.append('numero_romaneio', numeroRomaneio);
+        formulario.append('data_hora', dataHora);
+        formulario.append('codigo_produto', codigoProduto);
+        formulario.append('quantidade', quantidade);
 
         await Backend.post('/romaneio', formulario)
             .then(resposta => {

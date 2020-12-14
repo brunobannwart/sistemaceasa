@@ -30,12 +30,12 @@ const Requisição: React.FC = () => {
     async function tratarSubmit(evento: React.FormEvent) {
         evento.preventDefault();
 
-        const formulario = {
-            'numero_requisicao': numeroDocumento,
-            'data_hora': dataHora,
-            'codigo_produto': codigoProduto,
-            'quantidade': parseInt(quantidade, 10),
-        }
+        const formulario = new FormData();
+
+        formulario.append('numero_documento', numeroDocumento);
+        formulario.append('data_hora', dataHora);
+        formulario.append('codigo_produto', codigoProduto);
+        formulario.append('quantidade', quantidade);
 
         await Backend.post('/requisicao', formulario)
             .then(resposta => {

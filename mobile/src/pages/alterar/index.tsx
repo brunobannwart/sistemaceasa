@@ -30,10 +30,10 @@ const Alterar: React.FC = () => {
         evento.preventDefault();
 
         if (novaSenha === confirmaSenha) {
-            const formulario = {
-                'cpf': cpf,
-                'nova_senha': novaSenha,
-            }
+            const formulario = new FormData();
+
+            formulario.append('cpf', cpf);
+            formulario.append('nova_senha', novaSenha);
 
             await Backend.post('/alterar', formulario)
                 .then(resposta => {
@@ -42,6 +42,7 @@ const Alterar: React.FC = () => {
                 .catch(erro => {
                     Alerta('Não foi possível alterar seus dados');
                 });
+
         } else {
             Alerta('Senhas não conferem');
         }

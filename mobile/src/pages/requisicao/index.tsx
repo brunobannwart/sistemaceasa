@@ -13,8 +13,10 @@ import {
     IonButton
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
-import Alerta from '../../services/alert';
+
+import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
+
 import './requisicao.css';
 
 const Requisição: React.FC = () => {

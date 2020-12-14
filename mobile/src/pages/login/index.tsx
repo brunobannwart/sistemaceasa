@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-	IonApp,
 	IonHeader,
 	IonToolbar,
 	IonTitle,
@@ -12,6 +11,8 @@ import {
 	IonRow,
 	IonCol,
 } from '@ionic/react';
+import Mascara from '../../utils/mask';
+
 import Logo from '../../assets/logo.png';
 import './login.css';
 
@@ -25,35 +26,8 @@ const Login: React.FC<Props> = ({
 	const [cpf, setCPF] = useState('');
 	const [senha, setSenha] = useState('');
 
-	function mascaraCampo(valor: string, mascara: string) {
-		let formatado, digitos, posição, novoCampo, tamanhoMascara, existeMascara, expressaoRegular;
-
-		expressaoRegular = /\-|\.|\/|\(|\)| /g;
-		posição = 0;
-		novoCampo = '';
-
-		digitos = valor.toString().replace(expressaoRegular, '');
-		tamanhoMascara = digitos.length;
-
-		for (let i = 0; i < tamanhoMascara; i += 1) {
-			existeMascara = ((mascara.charAt(i) === '-') || (mascara.charAt(i) === '.') || (mascara.charAt(i) === '/'))
-			existeMascara = existeMascara || ((mascara.charAt(i) === '(') || (mascara.charAt(i) === ')') || (mascara.charAt(i) === ' '))
-
-			if (existeMascara) {
-				novoCampo += mascara.charAt(i);
-				tamanhoMascara++;
-			} else {
-				novoCampo += digitos.charAt(posição);
-				posição++;
-			}
-		}
-
-		formatado = novoCampo;
-		return formatado;
-	}
-
 	return (
-		<IonApp>
+		<>
 			<IonHeader>
 				<IonToolbar
 					color='dark'
@@ -83,7 +57,7 @@ const Login: React.FC<Props> = ({
 									value={cpf}
 									maxlength={14}
 									pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
-									onIonChange={e => setCPF(mascaraCampo(e.detail.value!, '000.000.000-00'))}
+									onIonChange={e => setCPF(Mascara(e.detail.value!, '000.000.000-00'))}
 								/>
 							</IonCol>
 						</IonRow>
@@ -99,6 +73,7 @@ const Login: React.FC<Props> = ({
 								/>
 							</IonCol>
 						</IonRow>
+						<p>Não compartilhe seus dados com ninguém</p>
 						<IonRow>
 							<IonButton
 								type='submit'
@@ -110,10 +85,12 @@ const Login: React.FC<Props> = ({
 							</IonButton>
 						</IonRow>
 					</IonGrid>
-					<p>Não compartilhe seus dados com ninguém</p>
+					<nav>
+						<a href='/redefinir'>Redefinir senha?</a>
+					</nav>
 				</form>
 			</IonContent>
-		</IonApp>
+		</>
 	)
 }
 

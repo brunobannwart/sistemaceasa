@@ -42,5 +42,21 @@ ion-content form.login ion-button {
 ion-content form.login p {
     text-align: center;
     color: #b6b6b6;
-    margin-top: 30px;
+}
+
+ion-content form.login a {
+    text-align: center;
+    margin-top: 20px;
+}
+
+ion-content form.login nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+ion-content form.login a {
+    text-align: center;
+    text-decoration: none;
 }

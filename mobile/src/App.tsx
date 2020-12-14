@@ -10,13 +10,14 @@ import { Route, Switch } from 'react-router-dom';
 import { IonReactRouter } from '@ionic/react-router';
 import { home, list, restaurant } from 'ionicons/icons';
 
-import Alerta from './services/alert';
+import Alerta from './utils/alert';
 import Backend from './services/backend';
 
 import Alterar from './pages/alterar';
 import Historico from './pages/historico';
 import Login from './pages/login';
 import Perfil from './pages/perfil';
+import Redefinir from './pages/redefinir';
 import Requisição from './pages/requisicao';
 import Romaneio from './pages/romaneio';
 
@@ -41,12 +42,14 @@ const App: React.FC = () => {
 
 	async function tratarLogin(evento: React.FormEvent, cpf: string, senha: string) {
 		evento.preventDefault();
-		
-		await Backend.post('/login', { cpf: cpf, senha: senha })
+
+		await Backend.post('/login', { 'cpf': cpf, 'senha': senha })
 			.then(resposta => {
+				console.log(resposta);
 				setAutenticar(true);
 			})
 			.catch(erro => {
+				console.log(erro.data);
 				Alerta('Não foi possível efetuar o login. Tente novamente');
 				setAutenticar(false);
 			});
@@ -88,7 +91,20 @@ const App: React.FC = () => {
 			</IonApp>
 		)
 	} else {
-		return <Login efetuarLogin={(evento, cpf, senha) => tratarLogin(evento, cpf, senha)} />;
+		return (
+			<IonApp>
+				<IonReactRouter>
+					<Switch>
+						<Route path='/' exact render={
+							() => <Login
+								efetuarLogin={(evento, cpf, senha) => tratarLogin(evento, cpf, senha)}
+							/>}
+						/>
+						<Route path='/redefinir' component={Redefinir} />
+					</Switch>
+				</IonReactRouter>
+			</IonApp>
+		)
 	}
 }
 

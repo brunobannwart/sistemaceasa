@@ -11,6 +11,7 @@ import {
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { construct, logOut, time } from 'ionicons/icons';
+
 import Logo from '../../assets/logo.png';
 import './perfil.css';
 

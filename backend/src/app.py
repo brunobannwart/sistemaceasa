@@ -1,10 +1,16 @@
 from flask import Flask, json, Response, request
+from flask_cors import CORS
 from libs.Controller import Controller
-import hashlib
+import os
+
+base_dir = os.path.abspath(os.path.dirname(__file__))
+templates_dir = os.path.join(base_dir, 'templates')
 
 app = Flask(__name__)
+CORS(app)
+
 app.config.from_object('config.Config')
-app.controller = Controller()
+app.controller = Controller(templates_dir)
 
 def tratar_sucesso(saida, status=200, mimetype='application/json'):
 	return Response(output=saida, status=status, mimetype=mimetype)
@@ -16,9 +22,8 @@ def tratar_erro(saida, status=500, mimetype='application/json'):
 def efetuar_login():
 	cpf 		= request.form['cpf']
 	senha 		= request.form['senha']
-	senha_hash 	= hashlib.sha256(senha.encode()).hexdigest()
 
-	usuario = app.controller.efetuarLogin(cpf, senha_hash)
+	usuario = app.controller.efetuarLogin(cpf, senha)
 
 	if usuario != None:
 		saida = json.dumps({ 'id': usuario['id'], 'cpf': usuario['cpf'], 'escola_id': usuario['escola'] })
@@ -30,10 +35,9 @@ def efetuar_login():
 @app.route('/alterar', methods=['POST'])
 def alterar_senha():
 	cpf	= request.form['cpf']
-	nova_senha = request.form['nova_senha']
-	senha_hash = hashlib.sha256(nova_senha.encode()).hexdigest()
+	novaSenha = request.form['nova_senha']
 
-	resultado = app.controller.alterarSenha(cpf, senha_hash)
+	resultado = app.controller.alterarSenha(cpf, novaSenha)
 
 	if resultado:
 		saida = json.dumps({ 'mensagem': 'Alterado com sucesso '})
@@ -41,5 +45,18 @@ def alterar_senha():
 		
 	else:
 		return tratar_erro('Não foi possível alterar')
+
+@app.route('/redefinir', methods=['POST'])
+def redefinir_senha():
+	cpf = request.form['cpf']
+
+	resultado = app.controller.redefinirSenha(cpf)
+
+	if resultado:
+		saida = json.dumps({ 'mensagem': 'Redefinido com sucesso '})
+		return tratar_sucesso(saida)
+
+	else:
+		return tratar_erro('Não foi possível redefinir')
 
 app.run(host=app.config['FLASK_RUN_HOST'], port=app.config['FLASK_RUN_PORT'])

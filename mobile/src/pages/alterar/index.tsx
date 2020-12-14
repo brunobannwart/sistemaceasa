@@ -12,8 +12,11 @@ import {
     IonToolbar
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
-import Alerta from '../../services/alert';
+
+import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
+import Mascara from '../../utils/mask';
+
 import './alterar.css';
 
 const Alterar: React.FC = () => {
@@ -34,43 +37,14 @@ const Alterar: React.FC = () => {
 
             await Backend.post('/alterar', formulario)
                 .then(resposta => {
-
+                    navegar.push('/perfil');
                 })
                 .catch(erro => {
                     Alerta('Não foi possível alterar seus dados');
                 });
-
-            navegar.push('/perfil');
         } else {
             Alerta('Senhas não conferem');
         }
-    }
-
-    function mascaraCampo(valor: string, mascara: string) {
-        let formatado, digitos, posição, novoCampo, tamanhoMascara, existeMascara, expressaoRegular;
-
-        expressaoRegular = /\-|\.|\/|\(|\)| /g;
-        posição = 0;
-        novoCampo = '';
-
-        digitos = valor.toString().replace(expressaoRegular, '');
-        tamanhoMascara = digitos.length;
-
-        for (let i = 0; i < tamanhoMascara; i += 1) {
-            existeMascara = ((mascara.charAt(i) === '-') || (mascara.charAt(i) === '.') || (mascara.charAt(i) === '/'))
-            existeMascara = existeMascara || ((mascara.charAt(i) === '(') || (mascara.charAt(i) === ')') || (mascara.charAt(i) === ' '))
-
-            if (existeMascara) {
-                novoCampo += mascara.charAt(i);
-                tamanhoMascara++;
-            } else {
-                novoCampo += digitos.charAt(posição);
-                posição++;
-            }
-        }
-
-        formatado = novoCampo;
-        return formatado;
     }
 
     return (
@@ -100,7 +74,7 @@ const Alterar: React.FC = () => {
                                     maxlength={14}
                                     pattern='[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[-][0-9]{2}'
                                     required
-                                    onIonChange={e => setCPF(mascaraCampo(e.detail.value!, '000.000.000-00'))}
+                                    onIonChange={e => setCPF(Mascara(e.detail.value!, '000.000.000-00'))}
                                 />
                             </IonCol>
                         </IonRow>

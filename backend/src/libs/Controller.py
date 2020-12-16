@@ -45,3 +45,9 @@ class Controller:
 				return None
 		else:
 			return None
+
+	def historicoUsuario(self, usuarioID):
+		romaneios = self.db.obterRomaneiosUsuario(usuarioID)
+		requisições = self.db.obterRequisiçõesUsuario(usuarioID)
+
+		return romaneios, requisições

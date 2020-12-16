@@ -41,3 +41,67 @@ class Database:
 
 		except:
 			return False
+
+	def obterRomaneiosUsuario(self, usuarioID):
+		try:
+			romaneios = []
+
+			self.cursor.execute("SELECT * FROM `romaneio` WHERE `codigo_usuario`=%s", [usuarioID])
+			resultados = self.cursor.fetchall()
+
+			for resultado in resultados:
+				self.cursor.execute("SELECT * FROM `escola` WHERE `id`=%s", resultado[1])
+				escola = self.cursor.fetchone()
+
+				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", resultado[4])
+				produto = self.cursor.fetchone()
+
+				if escola != None and produto != None:
+					romaneio = {
+						'id': resultado[0],
+						'escola': escola[1],
+						'numero_romaneio': resultado[2],
+						'data_hora': resultado[3],
+						'produto': produto[2],
+						'quantidade': resultado[5],
+						'codigo_usuario': resultado[6]
+					}
+
+					romaneios.append(romaneio)
+
+			return romaneios
+			
+		except:
+			return []
+
+	def obterRequisiçõesUsuario(self, usuarioID):
+		try:
+			requisições = []
+
+			self.cursor.execute("SELECT * FROM `requisicao` WHERE `codigo_usuario`=%s", [usuarioID])
+			resultados = self.cursor.fetchall()
+
+			for resultado in resultados:
+				self.cursor.execute("SELECT * FROM `escola` WHERE `id`=%s", resultado[1])
+				escola = self.cursor.fetchone()
+
+				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", resultado[4])
+				produto = self.cursor.fetchone()
+
+				if escola != None and produto != None:
+					requisição = {
+						'id': resultado[0],
+						'escola': escola[1],
+						'numero_documento': resultado[2],
+						'data_hora': resultado[3],
+						'produto': produto[2],
+						'quantidade': resultado[5],
+						'codigo_usuario': resultado[6]
+					}
+
+					requisições.append(requisição)
+
+			return requisições
+
+		except:
+			return []

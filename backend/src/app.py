@@ -59,4 +59,15 @@ def redefinir_senha():
 	else:
 		return tratar_erro('Não foi possível redefinir')
 
+@app.route('/historico/<usuarioID>')
+def historico(usuarioID=0):
+	romaneios, requisições = app.controller.historicoUsuario(usuarioID)
+
+	if len(romaneios) or len(requisições):
+		saida = json.dumps({ 'romaneios': romaneios, 'requisições': requisições })
+		return tratar_sucesso(saida)
+		
+	else:
+		return tratar_erro('Não foi possível recuperar nenhum histórico')
+
 app.run(host=app.config['FLASK_RUN_HOST'], port=app.config['FLASK_RUN_PORT'])

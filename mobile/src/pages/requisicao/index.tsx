@@ -10,7 +10,9 @@ import {
     IonRow,
     IonGrid,
     IonCol,
-    IonButton
+    IonButton,
+    IonSelect,
+    IonSelectOption,
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 
@@ -23,6 +25,7 @@ const Requisição: React.FC = () => {
     const navegar = useHistory();
 
     const [numeroDocumento, setNumeroDocumento] = useState('');
+    const [tipo, setTipo] = useState('');
     const [dataHora] = useState(new Date().toString());
     const [codigoProduto, setCodigoProduto] = useState('');
     const [quantidade, setQuantidade] = useState('');
@@ -33,6 +36,7 @@ const Requisição: React.FC = () => {
         const formulario = new FormData();
 
         formulario.append('numero_documento', numeroDocumento);
+        formulario.append('tipo', tipo);
         formulario.append('data_hora', dataHora);
         formulario.append('codigo_produto', codigoProduto);
         formulario.append('quantidade', quantidade);
@@ -73,6 +77,32 @@ const Requisição: React.FC = () => {
                                     value={numeroDocumento}
                                     placeholder='Informe o número do documento'
                                 />
+                            </IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol>
+                                <IonLabel>Tipo</IonLabel>
+                                <IonSelect 
+                                    value={tipo}
+                                    onIonChange={
+                                        e => setTipo(e.detail.value!)
+                                    }
+                                    okText='Confirmar'
+                                    cancelText='Cancelar'
+                                >
+                                    <IonSelectOption value='' disabled hidden>
+                                        Selecione um tipo
+                                    </IonSelectOption>
+                                    <IonSelectOption value='RQ'>
+                                        Requisição
+                                    </IonSelectOption>
+                                    <IonSelectOption value='DV'>
+                                        Devolução
+                                    </IonSelectOption>
+                                    <IonSelectOption value='AJ'>
+                                        Ajuste
+                                    </IonSelectOption>
+                                </IonSelect>
                             </IonCol>
                         </IonRow>
                         <IonRow>

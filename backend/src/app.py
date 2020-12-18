@@ -59,7 +59,7 @@ def redefinir_senha():
 	else:
 		return tratar_erro('Não foi possível redefinir')
 
-@app.route('/historico/<usuarioID>')
+@app.route('/historico/<usuarioID>', methods=['GET'])
 def historico(usuarioID=0):
 	romaneios, requisições = app.controller.historicoUsuario(usuarioID)
 

@@ -8,7 +8,7 @@ class Database:
 
 	def __formarTabelas(self):
 		self.cursor.execute("CREATE TABLE IF NOT EXISTS `romaneio`(`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT, `codigo_escola` INTEGER, `numero_romaneio` VARCHAR(100), `data_hora` DATETIME, `codigo_produto` VARCHAR(12), `quantidade` INTEGER, `codigo_usuario` INTEGER) ENGINE=InnoDB")
-		self.cursor.execute("CREATE TABLE IF NOT EXISTS `requisicao`(`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT, `codigo_escola` INTEGER, `numero_documento` VARCHAR(100), `data_hora` DATETIME, `codigo_produto` VARCHAR(12), `quantidade` INTEGER, `codigo_usuario` INTEGER) ENGINE=InnoDB")
+		self.cursor.execute("CREATE TABLE IF NOT EXISTS `requisicao`(`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT, `codigo_escola` INTEGER, `numero_documento` VARCHAR(100), `data_hora` DATETIME, `tipo` VARCHAR(2), `E/S` VARCHAR(1), `codigo_produto` VARCHAR(12), `quantidade` INTEGER, `codigo_usuario` INTEGER) ENGINE=InnoDB")
 
 	def obterUsuario(self, cpf):
 		try:

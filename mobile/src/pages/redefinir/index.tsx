@@ -10,8 +10,11 @@ import {
     IonGrid,
     IonRow,
     IonCol,
+    IonButtons,
+    IonBackButton,
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
+import { chevronBack } from 'ionicons/icons';
 
 import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
@@ -46,6 +49,15 @@ const Redefinir: React.FC = () => {
                     color='dark'
                     className='ion-text-center ion-padding-top'
                 >
+                    <IonButtons slot='start'>
+                        <IonBackButton
+                            defaultHref='/'
+                            icon={chevronBack}
+                            style={{
+                                marginRight: '-3em'
+                            }}
+                        />
+                    </IonButtons>
                     <IonTitle>Redefinir senha</IonTitle>
                 </IonToolbar>
             </IonHeader>
@@ -73,6 +85,7 @@ const Redefinir: React.FC = () => {
                                 />
                             </IonCol>
                         </IonRow>
+                        <p>Um email será enviado com uma nova senha</p>
                         <IonRow>
                             <IonButton
                                 type='submit'
@@ -82,17 +95,6 @@ const Redefinir: React.FC = () => {
                             >
                                 Confirmar
 							</IonButton>
-                        </IonRow>
-                        <IonRow>
-                            <IonButton
-                                type='button'
-                                color='danger'
-                                expand='block'
-                                shape='round'
-                                onClick={() => navegar.push('/')}
-                            >
-                                Voltar para login
-                            </IonButton>
                         </IonRow>
                     </IonGrid>
                 </form>

@@ -9,9 +9,12 @@ import {
     IonCol,
     IonRow,
     IonGrid,
-    IonToolbar
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
+import { chevronBack } from 'ionicons/icons';
 
 import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
@@ -55,6 +58,15 @@ const Alterar: React.FC = () => {
                     color='tertiary'
                     className='ion-text-center ion-padding-top'
                 >
+                    <IonButtons slot='start'>
+                        <IonBackButton
+                            defaultHref='/perfil'
+                            icon={chevronBack}
+                            style={{
+                                marginRight: '-3em'
+                            }}
+                        />
+                    </IonButtons>
                     <IonTitle>Alterar seus dados</IonTitle>
                 </IonToolbar>
             </IonHeader>

@@ -31,3 +31,8 @@ ion-content form.redefinir ion-button {
     font-size: 18px;
     text-transform: initial;
 }
+
+ion-content form.redefinir p {
+    text-align: center;
+    color: #b6b6b6;
+}

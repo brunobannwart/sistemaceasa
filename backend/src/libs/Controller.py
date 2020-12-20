@@ -51,3 +51,95 @@ class Controller:
 		requisições = self.db.obterRequisiçõesUsuario(usuarioID)
 
 		return romaneios, requisições
+
+	def novoRomaneio(self, codigoEscola, numeroRomaneio, dataHora, codigoProduto, quantidade, codigoUsuario):
+		produto = self.db.obterProduto(codigoProduto)
+
+		if produto != None:
+			estoque = self.db.obterEstoque(codigoEscola, produto['id'])
+
+			if estoque != None:
+				novoSaldo = quantidade + estoque['quantidade']
+				atualizar = self.db.atualizarEstoque(estoque['id'], novoSaldo)
+
+				if atualizar:
+					# TODO - obter sequencia correta
+					romaneio = self.db.cadastrarRomaneio(codigoEscola, numeroRomaneio, 1, dataHora, codigoProduto, quantidade, codigoUsuario)
+
+					if romaneio:
+						extrato = self.db.cadastrarExtrato(codigoEscola, numeroRomaneio, dataHora, 'RO', 'E', produto['id'], quantidade, novoSaldo)
+
+						if extrato:
+							return True
+
+						else:
+							return False
+
+					else:
+						return False
+
+				else:
+					return False
+
+			else:
+				return False
+
+		else:
+			return False
+
+	def novaRequisição(self, codigoEscola, dataHora, tipo, codigoProduto, quantidade, codigoUsuario):
+		produto = self.db.obterProduto(codigoProduto)
+
+		if produto != None:
+			estoque = self.db.obterEstoque(codigoEscola, produto['id'])
+
+			if estoque != None:
+				if tipo == 'DV':
+					novoSaldo = quantidade + estoque['quantidade']
+					ES = 'E'
+
+				else:
+					if tipo == 'AJ':
+						novoSaldo = quantidade
+
+						if quantidade >= estoque['quantidade']:
+							ES = 'E'
+
+						else:
+							ES = 'S'
+
+					else:
+						novoSaldo = estoque['quantidade'] - quantidade
+
+						if novoSaldo >= 0:
+							ES = 'S'
+
+						else:
+							return False
+
+				atualizar = self.db.atualizarEstoque(estoque['id'], novoSaldo)
+
+				if atualizar:
+					# TODO = obter numero do documento sequencial
+					requisição = self.db.cadastrarRequisição(codigoEscola, 1, dataHora, tipo, ES, codigoProduto, quantidade, codigoUsuario)
+
+					if requisição:
+						extrato = self.db.cadastrarExtrato(codigoEscola, 1, dataHora, tipo, ES, produto['id'], quantidade, novoSaldo)
+
+						if extrato:
+							return True
+
+						else:
+							return False
+
+					else:
+						return False
+
+				else:
+					return False
+
+			else:
+				return False
+
+		else:
+			return False

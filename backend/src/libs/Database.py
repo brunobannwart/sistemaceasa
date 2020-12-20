@@ -177,3 +177,13 @@ class Database:
 
 		except:
 			return False
+
+	def cadastrarExtrato(self, escolaID, numeroDocumento, dataHora, tipo, eS, produtoID, quantidade, saldo):
+		try:
+			self.cursor.execute("INSERT INTO `extrato` (`escola_id`, `numero_documento`, `data_hora, `tipo_mov`, `entrada_saida`, `produto_id`, `quantidade`, `saldo`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+				[escolaID, numeroDocumento, dataHora, tipo, eS, produtoID, quantidade, saldo])
+			self.conexao.commit()
+			return True
+
+		except:
+			return False

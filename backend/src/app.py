@@ -70,4 +70,39 @@ def historico(usuarioID=0):
 	else:
 		return tratar_erro('Não foi possível recuperar nenhum histórico')
 
+@app.route('/romaneio', methods=['POST'])
+def romaneio():
+	codigoEscola = request.form['codigo_escola']
+	numeroRomaneio = request.form['numero_romaneio']
+	dataHora = request.form['data_hora']
+	codigoProduto = request.form['codigo_produto']
+	quantidade = request.form['quantidade']
+	codigoUsuario = request.form['codigo_usuario']
+
+	resultado = app.controller.novoRomaneio(codigoEscola, numeroRomaneio, dataHora, codigoProduto, quantidade, codigoUsuario)
+
+	if resultado:
+		saida = json.dumps({ 'mensagem': 'Romaneio efetuado com sucesso '})
+		return tratar_sucesso(saida)
+
+	else:
+		return tratar_erro('Não foi possível efetuar romaneio')
+
+@app.route('/requisicao', methods=['POST'])
+def requisição():
+	codigoEscola = request.form['codigo_escola']
+	dataHora = request.form['data_hora']
+	tipo = request.form['tipo']
+	codigoProduto = request.form['codigo_produto']
+	quantidade = request.form['quantidade']
+	codigoUsuario = request.form['codigo_usuario']
+
+	resultado = app.controller.novaRequisição(codigoEscola, dataHora, tipo, codigoProduto, quantidade, codigoUsuario)
+
+	if resultado:
+		saida = json.dumps({ 'mensagem': 'Requisição efetuado com sucesso '})
+		return tratar_sucesso(saida)
+	else:
+		return tratar_erro('Não foi possível efetuar requisição')
+
 app.run(host=app.config['FLASK_RUN_HOST'], port=app.config['FLASK_RUN_PORT'])

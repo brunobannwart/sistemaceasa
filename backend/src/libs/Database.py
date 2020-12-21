@@ -54,7 +54,7 @@ class Database:
 				self.cursor.execute("SELECT * FROM `escola` WHERE `id`=%s", resultado[1])
 				escola = self.cursor.fetchone()
 
-				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", resultado[4])
+				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", resultado[5])
 				produto = self.cursor.fetchone()
 
 				if escola != None and produto != None:
@@ -62,10 +62,11 @@ class Database:
 						'id': resultado[0],
 						'escola': escola[1],
 						'numero_romaneio': resultado[2],
-						'data_hora': resultado[3],
+						'sequencia': resultado[3],
+						'data_hora': resultado[4],
 						'produto': produto[2],
-						'quantidade': resultado[5],
-						'codigo_usuario': resultado[6]
+						'quantidade': resultado[6],
+						'codigo_usuario': resultado[7]
 					}
 
 					romaneios.append(romaneio)
@@ -86,7 +87,7 @@ class Database:
 				self.cursor.execute("SELECT * FROM `escola` WHERE `id`=%s", resultado[1])
 				escola = self.cursor.fetchone()
 
-				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", resultado[4])
+				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", resultado[6])
 				produto = self.cursor.fetchone()
 
 				if escola != None and produto != None:
@@ -95,9 +96,11 @@ class Database:
 						'escola': escola[1],
 						'numero_documento': resultado[2],
 						'data_hora': resultado[3],
+						'tipo': resultado[4],
+						'entrada_saida': resultado[5],
 						'produto': produto[2],
-						'quantidade': resultado[5],
-						'codigo_usuario': resultado[6]
+						'quantidade': resultado[7],
+						'codigo_usuario': resultado[8]
 					}
 
 					requisições.append(requisição)
@@ -168,6 +171,31 @@ class Database:
 		except:
 			return False
 
+	def obterSequenciaRomaneio(self, numeroRomaneio):
+		try:
+			self.cursor.execute("SELECT * FROM `romaneio` WHERE `numero_documento`=%s ORDER BY `id` DESC LIMIT 1", [numeroRomaneio])
+			resultado = self.cursor.fetchone()
+
+			if resultado != None:
+				romaneio = {
+					'id': resultado[0],
+					'escola': resultado[1],
+					'numero_romaneio': resultado[2],
+					'sequencia': resultado[3],
+					'data_hora': resultado[4],
+					'produto': resultado[5],
+					'quantidade': resultado[6],
+					'codigo_usuario': resultado[7]
+				}
+
+				return romaneio
+
+			else:
+				return None
+
+		except:
+			return None
+
 	def cadastrarRequisição(self, codigoEscola, numeroDocumento, dataHora, tipo, eS, codigoProduto, quantidade, codigoUsuario):
 		try:
 			self.cursor.execute("INSERT INTO `requisicao` (`codigo_escola`, `numero_documento`, `data_hora, `tipo`, `entrada_saida`, `codigo_produto`, `quantidade`, `codigo_usuario`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
@@ -177,6 +205,32 @@ class Database:
 
 		except:
 			return False
+
+	def obterUltimaRequisição(self):
+		try:
+			self.cursor.execute("SELECT * FROM `requisicao` ORDER BY `id` DESC LIMIT 1")
+			resultado = self.cursor.fetchone()
+
+			if resultado != None:
+				requisicao = {
+					'id': resultado[0],
+					'escola': resultado[1],
+					'numero_documento': resultado[2],
+					'data_hora': resultado[3],
+					'tipo': resultado[4],
+					'entrada_saida': resultado[5],
+					'produto': produto[2],
+					'quantidade': resultado[7],
+					'codigo_usuario': resultado[8]
+				}
+
+				return requisicao
+
+			else:
+				return None
+
+		except:
+			return None
 
 	def cadastrarExtrato(self, escolaID, numeroDocumento, dataHora, tipo, eS, produtoID, quantidade, saldo):
 		try:

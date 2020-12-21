@@ -114,12 +114,13 @@ const Historico: React.FC = () => {
                 {controle ?
                     <IonList>
                         {romaneios.map(romaneio => {
-                            const { escola, numero_romaneio, data_hora, produto, quantidade } = romaneio;
+                            const { id, escola, numero_romaneio, sequencia, data_hora, produto, quantidade } = romaneio;
 
                             return (
-                                <IonItem>
+                                <IonItem key={id}>
                                     <IonLabel>{escola}</IonLabel>
                                     <IonLabel>{numero_romaneio}</IonLabel>
+                                    <IonLabel>{sequencia}</IonLabel>
                                     <IonLabel>{Formatar(data_hora)}</IonLabel>
                                     <IonLabel>{produto}</IonLabel>
                                     <IonLabel>{quantidade}</IonLabel>
@@ -129,7 +130,7 @@ const Historico: React.FC = () => {
                     </IonList> :
                     <IonList>
                         {requisições.map(requisição => {
-                            const { escola, numero_documento, tipo, data_hora, produto, quantidade } = requisição;
+                            const { id, escola, numero_documento, tipo, entrada_saida, data_hora, produto, quantidade } = requisição;
 
                             return (
                                 <IonItem>
@@ -137,6 +138,7 @@ const Historico: React.FC = () => {
                                     <IonLabel>{numero_documento}</IonLabel>
                                     <IonLabel>{Formatar(data_hora)}</IonLabel>
                                     <IonLabel>{tipo}</IonLabel>
+                                    <IonLabel>{entrada_saida}</IonLabel>
                                     <IonLabel>{produto}</IonLabel>
                                     <IonLabel>{quantidade}</IonLabel>
                                 </IonItem>

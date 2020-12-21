@@ -63,8 +63,15 @@ class Controller:
 				atualizar = self.db.atualizarEstoque(estoque['id'], novoSaldo)
 
 				if atualizar:
-					# TODO - obter sequencia correta
-					romaneio = self.db.cadastrarRomaneio(codigoEscola, numeroRomaneio, 1, dataHora, codigoProduto, quantidade, codigoUsuario)
+					existeRomaneio = self.db.obterSequenciaRomaneio(numeroRomaneio)
+
+					if existeRomaneio != None:
+						sequenciaRomaneio = existeRomaneio['sequencia'] + 1
+
+					else:
+						sequenciaRomaneio = 1
+
+					romaneio = self.db.cadastrarRomaneio(codigoEscola, numeroRomaneio, sequenciaRomaneio, dataHora, codigoProduto, quantidade, codigoUsuario)
 
 					if romaneio:
 						extrato = self.db.cadastrarExtrato(codigoEscola, numeroRomaneio, dataHora, 'RO', 'E', produto['id'], quantidade, novoSaldo)
@@ -120,8 +127,15 @@ class Controller:
 				atualizar = self.db.atualizarEstoque(estoque['id'], novoSaldo)
 
 				if atualizar:
-					# TODO = obter numero do documento sequencial
-					requisição = self.db.cadastrarRequisição(codigoEscola, 1, dataHora, tipo, ES, codigoProduto, quantidade, codigoUsuario)
+					ultimaRequisição = self.db.obterUltimaRequisição()
+
+					if ultimaRequisição != None:
+						novoDocumento = ultimaRequisição['numero_documento'] + 1
+
+					else:
+						novoDocumento = 1
+
+					requisição = self.db.cadastrarRequisição(codigoEscola, novoDocumento, dataHora, tipo, ES, codigoProduto, quantidade, codigoUsuario)
 
 					if requisição:
 						extrato = self.db.cadastrarExtrato(codigoEscola, 1, dataHora, tipo, ES, produto['id'], quantidade, novoSaldo)

@@ -9,10 +9,13 @@ import {
     IonCol,
     IonLabel,
     IonInput,
-    IonDatetime,
+    IonIcon,
     IonButton,
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
+
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { barcode } from 'ionicons/icons';
 
 import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
@@ -23,7 +26,6 @@ const Romaneio: React.FC = () => {
     const navegar = useHistory();
 
     const [numeroRomaneio, setNumeroRomaneio] = useState('');
-    const [dataHora] = useState(new Date().toString());
     const [codigoProduto, setCodigoProduto] = useState('');
     const [quantidade, setQuantidade] = useState('');
 
@@ -33,7 +35,7 @@ const Romaneio: React.FC = () => {
         const formulario = new FormData();
 
         formulario.append('numero_romaneio', numeroRomaneio);
-        formulario.append('data_hora', dataHora);
+        formulario.append('data_hora', new Date().toString());
         formulario.append('codigo_produto', codigoProduto);
         formulario.append('quantidade', quantidade);
 
@@ -43,6 +45,16 @@ const Romaneio: React.FC = () => {
             })
             .catch(erro => {
                 Alerta('Não foi possível registrar romaneio');
+            });
+    }
+
+    async function escanear() {
+        await BarcodeScanner.scan()
+            .then(resposta => {
+                setCodigoProduto(resposta.text);
+            })
+            .catch(erro => {
+                Alerta('Não foi possível escanear código de barra');
             });
     }
 
@@ -77,20 +89,6 @@ const Romaneio: React.FC = () => {
                         </IonRow>
                         <IonRow>
                             <IonCol>
-                                <IonLabel>Data e hora</IonLabel>
-                                <IonDatetime
-                                    value={dataHora}
-                                    displayFormat='DD/MM/YYYY HH:mm'
-                                    min='2020-01-01'
-                                    mode='ios'
-                                    cancelText='Cancelar'
-                                    doneText='OK'
-                                    readonly
-                                />
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol>
                                 <IonLabel>Código do produto</IonLabel>
                                 <IonInput
                                     type='text'
@@ -99,6 +97,20 @@ const Romaneio: React.FC = () => {
                                     value={codigoProduto}
                                     placeholder='Informe o código do produto'
                                 />
+
+                                <div className='scanner'>
+                                    <p>ou</p>
+
+                                    <IonButton
+                                        type='button'
+                                        color='medium'
+                                        expand='block'
+                                        onClick={() => escanear()}
+                                    >
+                                        <IonIcon slot='start' icon={barcode} />
+                                        <IonLabel>Escanear</IonLabel>
+                                    </IonButton>
+                                </div>
                             </IonCol>
                         </IonRow>
                         <IonRow>

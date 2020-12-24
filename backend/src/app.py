@@ -79,7 +79,14 @@ def romaneio():
 	quantidade = request.form['quantidade']
 	codigoUsuario = request.form['codigo_usuario']
 
-	resultado = app.controller.novoRomaneio(codigoEscola, numeroRomaneio, dataHora, codigoProduto, quantidade, codigoUsuario)
+	resultado = app.controller.novoRomaneio(
+		int(codigoEscola), 
+		numeroRomaneio, 
+		dataHora, 
+		codigoProduto, 
+		int(quantidade), 
+		int(codigoUsuario)
+	)
 
 	if resultado:
 		saida = json.dumps({ 'mensagem': 'Romaneio efetuado com sucesso '})
@@ -97,7 +104,14 @@ def requisição():
 	quantidade = request.form['quantidade']
 	codigoUsuario = request.form['codigo_usuario']
 
-	resultado = app.controller.novaRequisição(codigoEscola, dataHora, tipo, codigoProduto, quantidade, codigoUsuario)
+	resultado = app.controller.novaRequisição(
+		int(codigoEscola), 
+		dataHora, 
+		tipo, 
+		codigoProduto, 
+		int(quantidade), 
+		int(codigoUsuario)
+	)
 
 	if resultado:
 		saida = json.dumps({ 'mensagem': 'Requisição efetuado com sucesso '})

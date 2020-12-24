@@ -13,6 +13,11 @@ import {
     IonBackButton,
     IonRefresher,
     IonRefresherContent,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonCardContent,
 } from '@ionic/react';
 import { RefresherEventDetail } from '@ionic/core';
 import { chevronBack } from 'ionicons/icons';
@@ -20,6 +25,8 @@ import { chevronBack } from 'ionicons/icons';
 import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
 import Formatar from '../../utils/format';
+
+import './historico.css';
 
 const Historico: React.FC = () => {
     const [opção, setOpção] = useState('romaneio');
@@ -36,7 +43,7 @@ const Historico: React.FC = () => {
                     setRomaneios(data.romaneios);
                 })
                 .catch(erro => {
-                    Alerta('Não foi possível recuperar o histórico de romaneios e requisições');
+                    //Alerta('Não foi possível recuperar o histórico de romaneios e requisições');
                     setRequisições([]);
                     setRomaneios([]);
                 });
@@ -112,35 +119,46 @@ const Historico: React.FC = () => {
                 </IonSegment>
 
                 {controle ?
-                    <IonList>
+                    <IonList className='historico'>
                         {romaneios.map(romaneio => {
                             const { id, escola, numero_romaneio, sequencia, data_hora, produto, quantidade } = romaneio;
 
                             return (
                                 <IonItem key={id}>
-                                    <IonLabel>{escola}</IonLabel>
-                                    <IonLabel>{numero_romaneio}</IonLabel>
-                                    <IonLabel>{sequencia}</IonLabel>
-                                    <IonLabel>{Formatar(data_hora)}</IonLabel>
-                                    <IonLabel>{produto}</IonLabel>
-                                    <IonLabel>{quantidade}</IonLabel>
+                                    <IonCard>
+                                        <IonCardHeader>
+                                            <IonCardTitle>{numero_romaneio}</IonCardTitle>
+                                            <IonCardSubtitle>{sequencia}</IonCardSubtitle>
+                                            <IonCardSubtitle>{Formatar(data_hora)}</IonCardSubtitle>
+                                        </IonCardHeader>
+                                        <IonCardContent>
+                                            <IonLabel>{escola}</IonLabel>
+                                            <IonLabel>{produto}</IonLabel>
+                                            <IonLabel>{quantidade}</IonLabel>
+                                        </IonCardContent>
+                                    </IonCard>
                                 </IonItem>
                             )
                         })}
                     </IonList> :
-                    <IonList>
+                    <IonList className='historico'>
                         {requisições.map(requisição => {
-                            const { id, escola, numero_documento, tipo, entrada_saida, data_hora, produto, quantidade } = requisição;
+                            const { id, escola, numero_documento, tipo, data_hora, produto, quantidade } = requisição;
 
                             return (
-                                <IonItem>
-                                    <IonLabel>{escola}</IonLabel>
-                                    <IonLabel>{numero_documento}</IonLabel>
-                                    <IonLabel>{Formatar(data_hora)}</IonLabel>
-                                    <IonLabel>{tipo}</IonLabel>
-                                    <IonLabel>{entrada_saida}</IonLabel>
-                                    <IonLabel>{produto}</IonLabel>
-                                    <IonLabel>{quantidade}</IonLabel>
+                                <IonItem key={id}>
+                                    <IonCard>
+                                        <IonCardHeader>
+                                            <IonCardTitle>{numero_documento}</IonCardTitle>
+                                            <IonCardSubtitle>{tipo}</IonCardSubtitle>
+                                            <IonCardSubtitle>{Formatar(data_hora)}</IonCardSubtitle>
+                                        </IonCardHeader>
+                                        <IonCardContent>
+                                            <IonLabel>{escola}</IonLabel>
+                                            <IonLabel>{produto}</IonLabel>
+                                            <IonLabel>{quantidade}</IonLabel>
+                                        </IonCardContent>
+                                    </IonCard>
                                 </IonItem>
                             )
                         })}

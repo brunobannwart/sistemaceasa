@@ -4,7 +4,7 @@ import {
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonDatetime,
+    IonIcon,
     IonInput,
     IonLabel,
     IonRow,
@@ -16,6 +16,9 @@ import {
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { barcode } from 'ionicons/icons';
+
 import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
 
@@ -24,9 +27,7 @@ import './requisicao.css';
 const Requisição: React.FC = () => {
     const navegar = useHistory();
 
-    const [numeroDocumento, setNumeroDocumento] = useState('');
     const [tipo, setTipo] = useState('');
-    const [dataHora] = useState(new Date().toString());
     const [codigoProduto, setCodigoProduto] = useState('');
     const [quantidade, setQuantidade] = useState('');
 
@@ -35,9 +36,8 @@ const Requisição: React.FC = () => {
 
         const formulario = new FormData();
 
-        formulario.append('numero_documento', numeroDocumento);
         formulario.append('tipo', tipo);
-        formulario.append('data_hora', dataHora);
+        formulario.append('data_hora', new Date().toString());
         formulario.append('codigo_produto', codigoProduto);
         formulario.append('quantidade', quantidade);
 
@@ -47,6 +47,16 @@ const Requisição: React.FC = () => {
             })
             .catch(erro => {
                 Alerta('Não foi possível registrar requisição');
+            });
+    }
+
+    async function escanear() {
+        await BarcodeScanner.scan()
+            .then(resposta => {
+                setCodigoProduto(resposta.text);
+            })
+            .catch(erro => {
+                Alerta('Não foi possível escanear código de barra');
             });
     }
 
@@ -69,20 +79,8 @@ const Requisição: React.FC = () => {
                     <IonGrid>
                         <IonRow>
                             <IonCol>
-                                <IonLabel>Número do documento</IonLabel>
-                                <IonInput
-                                    type='text'
-                                    required
-                                    onIonChange={e => setNumeroDocumento(e.detail.value!)}
-                                    value={numeroDocumento}
-                                    placeholder='Informe o número do documento'
-                                />
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol>
                                 <IonLabel>Tipo</IonLabel>
-                                <IonSelect 
+                                <IonSelect
                                     value={tipo}
                                     onIonChange={
                                         e => setTipo(e.detail.value!)
@@ -107,20 +105,6 @@ const Requisição: React.FC = () => {
                         </IonRow>
                         <IonRow>
                             <IonCol>
-                                <IonLabel>Data e hora</IonLabel>
-                                <IonDatetime
-                                    value={dataHora}
-                                    displayFormat='DD/MM/YYYY HH:mm'
-                                    min='2020-01-01'
-                                    mode='ios'
-                                    cancelText='Cancelar'
-                                    doneText='OK'
-                                    readonly
-                                />
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol>
                                 <IonLabel>Código do produto</IonLabel>
                                 <IonInput
                                     type='text'
@@ -129,6 +113,20 @@ const Requisição: React.FC = () => {
                                     value={codigoProduto}
                                     placeholder='Informe o código do produto'
                                 />
+
+                                <div className='scanner'>
+                                    <p>ou</p>
+
+                                    <IonButton
+                                        type='button'
+                                        color='medium'
+                                        expand='block'
+                                        onClick={() => escanear()}
+                                    >
+                                        <IonIcon slot='start' icon={barcode} />
+                                        <IonLabel>Escanear</IonLabel>
+                                    </IonButton>
+                                </div>
                             </IonCol>
                         </IonRow>
                         <IonRow>

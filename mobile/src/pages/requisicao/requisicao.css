@@ -30,3 +30,25 @@ ion-content form.requisicao ion-button {
     font-size: 18px;
     text-transform: initial;
 }
+
+ion-content form.requisicao .scanner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -10px;
+    margin-bottom: 25px;
+}
+
+ion-content form.requisicao .scanner p {
+    text-align: center;
+    color: #b6b6b6;
+}
+
+ion-content form.requisicao .scanner ion-button {
+    width: 8.5em;
+}
+
+ion-content form.requisicao .scanner ion-button ion-icon {
+    margin-right: 10px;
+}

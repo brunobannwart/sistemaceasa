@@ -12,8 +12,8 @@ export default function formatarData(data_hora) {
         data.getDate().toString();
 
     mes = (data.getMonth() + 1 < 10) ?
-        '0'.concat(data.getMonth().toString()) :
-        data.getMonth().toString();
+        '0'.concat((data.getMonth() + 1).toString()) :
+        (data.getMonth() + 1).toString();
 
     ano = data.getFullYear().toString();
     hora = data.getHours().toString();

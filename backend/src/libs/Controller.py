@@ -130,15 +130,15 @@ class Controller:
 					ultimaRequisição = self.db.obterUltimaRequisição()
 
 					if ultimaRequisição != None:
-						novoDocumento = ultimaRequisição['numero_documento'] + 1
+						novoDocumento = int(ultimaRequisição['numero_documento']) + 1
 
 					else:
 						novoDocumento = 1
 
-					requisição = self.db.cadastrarRequisição(codigoEscola, novoDocumento, dataHora, tipo, ES, codigoProduto, quantidade, codigoUsuario)
+					requisição = self.db.cadastrarRequisição(codigoEscola, str(novoDocumento), dataHora, tipo, ES, codigoProduto, quantidade, codigoUsuario)
 
 					if requisição:
-						extrato = self.db.cadastrarExtrato(codigoEscola, 1, dataHora, tipo, ES, produto['id'], quantidade, novoSaldo)
+						extrato = self.db.cadastrarExtrato(codigoEscola, str(novoDocumento), dataHora, tipo, ES, produto['id'], quantidade, novoSaldo)
 
 						if extrato:
 							return True

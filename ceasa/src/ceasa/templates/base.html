@@ -33,7 +33,6 @@
 							<div class='dropdown-menu' aria-labelledby='cadastro'>
 								<a class='dropdown-item' href='{% url "schoollist" %}'>Escolas</a>
 								<a class='dropdown-item' href='{% url "stocklist" %}'>Estoque</a>
-								<a class='dropdown-item' href='{% url "extractlist" %}'>Extrato</a>
 								<a class='dropdown-item' href='{% url "productlist" %}'>Produtos</a>
 								<a class='dropdown-item' href='{% url "userlist" %}'>Usuários</a>
 							</div>
@@ -44,9 +43,10 @@
 							<button class='btn btn-secondary btn-lg dropdown-toggle' type='button' id='relatorio' data-toggle='dropdown' aria-haspopup='true' 
 							aria-expanded='false'>Relatórios</button>
 							<div class='dropdown-menu' aria-labelledby='relatorio'>
-								<a class='dropdown-item' href='#'>Estoque por escola</a>
+								<a class='dropdown-item' href='{% url "reportstockschool" %}'>Estoque por escola</a>
 								<a class='dropdown-item' href='#'>Estoque mínimo por escola</a>
 								<a class='dropdown-item' href='#'>Inventário</a>
+								<a class='dropdown-item' href='{% url "extractlist" %}'>Todos extratos</a>
 							</div>
 						</li>
 					</div>

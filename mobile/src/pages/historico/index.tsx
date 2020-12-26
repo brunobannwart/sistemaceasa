@@ -25,6 +25,7 @@ import { chevronBack } from 'ionicons/icons';
 import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
 import Formatar from '../../utils/format';
+import { obterItem } from '../../utils/storage';
 
 import './historico.css';
 
@@ -36,14 +37,16 @@ const Historico: React.FC = () => {
 
     useEffect(() => {
         async function carregarHistorico() {
-            await Backend.get('/historico')
+            const codigoUsuario = await obterItem('usuario');
+
+            await Backend.get(`/historico/${codigoUsuario}`)
                 .then(resposta => {
                     const { data } = resposta;
                     setRequisições(data.requisições);
                     setRomaneios(data.romaneios);
                 })
                 .catch(erro => {
-                    //Alerta('Não foi possível recuperar o histórico de romaneios e requisições');
+                    Alerta('Não foi possível recuperar o histórico de romaneios e requisições');
                     setRequisições([]);
                     setRomaneios([]);
                 });
@@ -53,7 +56,9 @@ const Historico: React.FC = () => {
     }, []);
 
     async function recarregarHistorico(evento: CustomEvent<RefresherEventDetail>) {
-        await Backend.get('/historico')
+        const codigoUsuario = await obterItem('usuario');
+
+        await Backend.get(`/historico/${codigoUsuario}`)
             .then(resposta => {
                 const { data } = resposta;
                 setRequisições(data.requisições);

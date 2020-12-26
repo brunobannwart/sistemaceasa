@@ -1,6 +1,7 @@
 export default function mascaraCampo(valor, mascara) {
     let formatado, digitos, posição, novoCampo, tamanhoMascara, existeMascara, expressaoRegular;
 
+    // eslint-disable-next-line
     expressaoRegular = /\-|\.|\/|\(|\)| /g;
     posição = 0;
     novoCampo = '';

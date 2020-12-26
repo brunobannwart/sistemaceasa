@@ -12,6 +12,7 @@ import { home, list, restaurant } from 'ionicons/icons';
 
 import Alerta from './utils/alert';
 import Backend from './services/backend';
+import { armazenarItem, liberarArmazenamento } from './utils/storage';
 
 import Alterar from './pages/alterar';
 import Historico from './pages/historico';
@@ -49,8 +50,12 @@ const App: React.FC = () => {
 		formulario.append('senha', senha);
 
 		await Backend.post('/login', formulario)
-			.then(resposta => {
-				const { cpf, escola_id, id } = resposta.data;
+			.then(async resposta => {
+				const { escola_id, id } = resposta.data;
+
+				await armazenarItem('escola', escola_id.toString());
+				await armazenarItem('usuario', id.toString());
+
 				setAutenticar(true);
 			})
 			.catch(erro => {
@@ -59,7 +64,8 @@ const App: React.FC = () => {
 			});
 	}
 
-	function tratarLogout() {
+	async function tratarLogout() {
+		await liberarArmazenamento();
 		setAutenticar(false);
 	}
 

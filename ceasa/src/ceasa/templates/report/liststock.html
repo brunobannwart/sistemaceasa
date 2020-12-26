@@ -1,7 +1,36 @@
 {% extends 'base.html' %}
 
 {% block pagina %}
+
+{% if erro is not None %}
+	<div class='error-overlay' onclick='this.style.display="none"'>
+		<div class='error-popup' onclick='this.parentElement.style.display="none"'>
+			<h2>Aviso</h2>
+			<button aria-label='Fechar' class='error-close'>&times;</button>
+			<div class='error-content'>
+				<p>{{ erro }}</p>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
 <div class='list'>
+	<form method='post' action='{% url "reportstockschool" %}'>
+		{% csrf_token %}
+		<div class='input-group mb-3'>
+			<span class='input-group-text'>Nome da escola</span>
+			<input 
+				name='pesquisa' 
+				id='pesquisa'
+				type='text' 
+				class='form-control' 
+				value='{{ pesquisa }}' 
+				placeholder='Pesquisar extratos por escola'
+			/>
+			<button class='btn btn-outline-success' type='submit'>Pesquisar</button>
+		</div>
+	</form>
+
 	{% if extratos|length > 0 %}
 		<div class='table-responsive-lg'>
 			<table class='table table-bordered table-hover'>
@@ -26,7 +55,7 @@
 			</table>
 		</div>
 	{% else %}
-		<div class='empty'>
+		<div class='empty-read'>
 			<div class='card'>
 				<div class='card-body'>
 					<header>

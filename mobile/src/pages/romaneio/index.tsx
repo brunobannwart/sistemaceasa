@@ -19,6 +19,7 @@ import { barcode } from 'ionicons/icons';
 
 import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
+import { obterItem } from '../../utils/storage';
 
 import './romaneio.css';
 
@@ -31,13 +32,17 @@ const Romaneio: React.FC = () => {
 
     async function tratarSubmit(evento: React.FormEvent) {
         evento.preventDefault();
+        const codigoEscola = await obterItem('escola');
+        const codigoUsuario = await obterItem('usuario');
 
         const formulario = new FormData();
 
         formulario.append('numero_romaneio', numeroRomaneio);
         formulario.append('data_hora', new Date().toString());
+        formulario.append('codigo_escola', codigoEscola ? codigoEscola : '0');
         formulario.append('codigo_produto', codigoProduto);
         formulario.append('quantidade', quantidade);
+        formulario.append('codigo_usuario', codigoUsuario ? codigoUsuario : '0');
 
         await Backend.post('/romaneio', formulario)
             .then(resposta => {

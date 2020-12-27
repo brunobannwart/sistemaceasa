@@ -35,6 +35,7 @@ const Requisição: React.FC = () => {
     async function tratarSubmit(evento: React.FormEvent) {
         evento.preventDefault();
         const codigoEscola = await obterItem('escola');
+        const token = await obterItem('token');
         const codigoUsuario = await obterItem('usuario');
 
         const formulario = new FormData();
@@ -46,7 +47,11 @@ const Requisição: React.FC = () => {
         formulario.append('quantidade', quantidade);
         formulario.append('codigo_usuario', codigoUsuario ? codigoUsuario : '0');
 
-        await Backend.post('/requisicao', formulario)
+        await Backend.post('/requisicao', formulario, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(resposta => {
                 navegar.push('/perfil');
             })

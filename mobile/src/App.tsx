@@ -6,7 +6,7 @@ import {
 	IonTabBar,
 	IonTabButton,
 } from '@ionic/react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { IonReactRouter } from '@ionic/react-router';
 import { home, list, restaurant } from 'ionicons/icons';
 
@@ -51,10 +51,11 @@ const App: React.FC = () => {
 
 		await Backend.post('/login', formulario)
 			.then(async resposta => {
-				const { escola_id, id } = resposta.data;
+				const { escola_id, id, token } = resposta.data;
 
 				await armazenarItem('escola', escola_id.toString());
 				await armazenarItem('usuario', id.toString());
+				await armazenarItem('token', token.toString());
 
 				setAutenticar(true);
 			})
@@ -82,6 +83,7 @@ const App: React.FC = () => {
 						} />
 						<Route path='/requisicao' component={Requisição} />
 						<Route path='/romaneio' component={Romaneio} />
+						<Route path='*' render={() => <Redirect to='/' />} />
 					</Switch>
 					<IonTabBar slot='bottom'>
 						<IonTabButton tab='romaneio' href='/romaneio'>
@@ -111,6 +113,7 @@ const App: React.FC = () => {
 							/>}
 						/>
 						<Route path='/redefinir' component={Redefinir} />
+						<Route path='*' render={() => <Redirect to='/' />} />
 					</Switch>
 				</IonReactRouter>
 			</IonApp>

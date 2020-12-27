@@ -19,6 +19,7 @@ import { chevronBack } from 'ionicons/icons';
 import Alerta from '../../utils/alert';
 import Backend from '../../services/backend';
 import Mascara from '../../utils/mask';
+import { obterItem } from '../../utils/storage';
 
 import './alterar.css';
 
@@ -31,6 +32,7 @@ const Alterar: React.FC = () => {
 
     async function tratarSubmit(evento: React.FormEvent) {
         evento.preventDefault();
+        const token = await obterItem('token');
 
         if (novaSenha === confirmaSenha) {
             const formulario = new FormData();
@@ -38,7 +40,11 @@ const Alterar: React.FC = () => {
             formulario.append('cpf', cpf);
             formulario.append('nova_senha', novaSenha);
 
-            await Backend.post('/alterar', formulario)
+            await Backend.post('/alterar', formulario, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
                 .then(resposta => {
                     navegar.push('/perfil');
                 })

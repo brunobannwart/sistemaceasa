@@ -37,9 +37,14 @@ const Historico: React.FC = () => {
 
     useEffect(() => {
         async function carregarHistorico() {
+            const token = await obterItem('token');
             const codigoUsuario = await obterItem('usuario');
 
-            await Backend.get(`/historico/${codigoUsuario}`)
+            await Backend.get(`/historico/${codigoUsuario}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
                 .then(resposta => {
                     const { data } = resposta;
                     setRequisições(data.requisições);
@@ -56,9 +61,14 @@ const Historico: React.FC = () => {
     }, []);
 
     async function recarregarHistorico(evento: CustomEvent<RefresherEventDetail>) {
+        const token = await obterItem('token');
         const codigoUsuario = await obterItem('usuario');
 
-        await Backend.get(`/historico/${codigoUsuario}`)
+        await Backend.get(`/historico/${codigoUsuario}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(resposta => {
                 const { data } = resposta;
                 setRequisições(data.requisições);

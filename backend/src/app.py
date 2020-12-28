@@ -1,7 +1,7 @@
 from flask import Flask, json, Response, request
 from flask_cors import CORS
 from libs.Controller import Controller
-import os
+import os, jwt, datetime
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
 templates_dir = os.path.join(base_dir, 'templates')
@@ -11,6 +11,19 @@ CORS(app)
 
 app.config.from_object('config.Config')
 app.controller = Controller(templates_dir)
+
+def codificar_token(usuarioID):
+	try:
+		encriptar = {
+			'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=5),
+			'iat': datetime.datetime.utcnow(),
+			'sub': usuarioID,
+		}
+
+		return jwt.encode(encriptar, app.config['SECRET_KEY'])
+
+	except:
+		return None
 
 def tratar_sucesso(saida, status=200, mimetype='application/json'):
 	return Response(saida, status=status, mimetype=mimetype)
@@ -26,7 +39,12 @@ def efetuar_login():
 	usuario = app.controller.efetuarLogin(cpf, senha)
 
 	if usuario != None:
-		saida = json.dumps({ 'id': usuario['id'], 'cpf': usuario['cpf'], 'escola_id': usuario['escola'] })
+		token = codificar_token(usuario['id'])
+
+		if not token:
+			return tratar_erro('Não foi possível efetuar login')
+
+		saida = json.dumps({ 'id': usuario['id'], 'token': token, 'escola_id': usuario['escola'] })
 		return tratar_sucesso(saida)
 
 	else:
@@ -116,6 +134,7 @@ def requisição():
 	if resultado:
 		saida = json.dumps({ 'mensagem': 'Requisição efetuado com sucesso '})
 		return tratar_sucesso(saida)
+
 	else:
 		return tratar_erro('Não foi possível efetuar requisição')
 

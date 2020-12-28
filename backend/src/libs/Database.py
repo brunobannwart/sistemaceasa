@@ -24,7 +24,7 @@ class Database:
 					'telefone': resultado[4],
 					'senha_hash': resultado[5],
 					'tipo': resultado[6],
-					'escola': resultado[7]
+					'escola': resultado[11]
 				}
 
 				return usuario
@@ -138,10 +138,10 @@ class Database:
 			if resultado != None:
 				estoque = {
 					'id': resultado[0],
-					'escola': resultado[1],
-					'produto': resultado[2],
-					'quantidade': resultado[3],
-					'minimo': resultado[4],
+					'escola': resultado[5],
+					'produto': resultado[6],
+					'quantidade': resultado[1],
+					'minimo': resultado[2],
 				}
 
 				return estoque
@@ -163,7 +163,7 @@ class Database:
 
 	def cadastrarRomaneio(self, codigoEscola, numeroRomaneio, sequencia, dataHora, codigoProduto, quantidade, codigoUsuario):
 		try:
-			self.cursor.execute("INSERT INTO `romaneio` (`codigo_escola`, `numero_romaneio`, `sequencia`, `data_hora, `codigo_produto`, `quantidade`, `codigo_usuario`) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
+			self.cursor.execute("INSERT INTO romaneio(codigo_escola, numero_romaneio, sequencia, data_hora, codigo_produto, quantidade, codigo_usuario) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
 				[codigoEscola, numeroRomaneio, sequencia, dataHora, codigoProduto, quantidade, codigoUsuario])
 			self.conexao.commit()
 			return True
@@ -198,7 +198,7 @@ class Database:
 
 	def cadastrarRequisição(self, codigoEscola, numeroDocumento, dataHora, tipo, eS, codigoProduto, quantidade, codigoUsuario):
 		try:
-			self.cursor.execute("INSERT INTO `requisicao` (`codigo_escola`, `numero_documento`, `data_hora, `tipo`, `entrada_saida`, `codigo_produto`, `quantidade`, `codigo_usuario`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+			self.cursor.execute("INSERT INTO requisicao(codigo_escola, numero_documento, data_hora, tipo, entrada_saida, codigo_produto, quantidade, codigo_usuario) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
 				[codigoEscola, numeroDocumento, dataHora, tipo, eS, codigoProduto, quantidade, codigoUsuario])
 			self.conexao.commit()
 			return True

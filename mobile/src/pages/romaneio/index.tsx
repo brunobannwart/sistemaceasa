@@ -94,6 +94,7 @@ const Romaneio: React.FC = () => {
                                     onIonChange={e => setNumeroRomaneio(e.detail.value!)}
                                     value={numeroRomaneio}
                                     placeholder='Informe o número do romaneio'
+                                    maxlength={255}
                                 />
                             </IonCol>
                         </IonRow>
@@ -106,6 +107,7 @@ const Romaneio: React.FC = () => {
                                     onIonChange={e => setCodigoProduto(e.detail.value!)}
                                     value={codigoProduto}
                                     placeholder='Informe o código do produto'
+                                    maxlength={12}
                                 />
 
                                 <div className='scanner'>

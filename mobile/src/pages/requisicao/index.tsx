@@ -122,6 +122,7 @@ const Requisição: React.FC = () => {
                                     onIonChange={e => setCodigoProduto(e.detail.value!)}
                                     value={codigoProduto}
                                     placeholder='Informe o código do produto'
+                                    maxlength={12}
                                 />
 
                                 <div className='scanner'>

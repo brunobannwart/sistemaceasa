@@ -124,6 +124,7 @@ const Historico: React.FC = () => {
                     onIonChange={
                         (e: CustomEvent) => setOpção(e.detail.value!)
                     }
+                    mode='md'
                 >
                     <IonSegmentButton value='romaneio'>
                         <IonLabel>Romaneio</IonLabel>
@@ -142,14 +143,14 @@ const Historico: React.FC = () => {
                                 <IonItem key={id}>
                                     <IonCard>
                                         <IonCardHeader>
-                                            <IonCardTitle>{numero_romaneio}</IonCardTitle>
-                                            <IonCardSubtitle>{sequencia}</IonCardSubtitle>
-                                            <IonCardSubtitle>{Formatar(data_hora)}</IonCardSubtitle>
+                                            <IonCardTitle>Documento: {numero_romaneio}</IonCardTitle>
+                                            <IonCardSubtitle>Nº Sequencia: {sequencia}</IonCardSubtitle>
+                                            <IonCardSubtitle>Data: {Formatar(data_hora)}</IonCardSubtitle>
                                         </IonCardHeader>
                                         <IonCardContent>
                                             <IonLabel>{escola}</IonLabel>
-                                            <IonLabel>{produto}</IonLabel>
-                                            <IonLabel>{quantidade}</IonLabel>
+                                            <IonLabel>Produto: {produto}</IonLabel>
+                                            <IonLabel>Quantidade: {quantidade}</IonLabel>
                                         </IonCardContent>
                                     </IonCard>
                                 </IonItem>
@@ -164,14 +165,14 @@ const Historico: React.FC = () => {
                                 <IonItem key={id}>
                                     <IonCard>
                                         <IonCardHeader>
-                                            <IonCardTitle>{numero_documento}</IonCardTitle>
-                                            <IonCardSubtitle>{tipo}</IonCardSubtitle>
-                                            <IonCardSubtitle>{Formatar(data_hora)}</IonCardSubtitle>
+                                            <IonCardTitle>Documento: {numero_documento}</IonCardTitle>
+                                            <IonCardSubtitle>Tipo: {tipo}</IonCardSubtitle>
+                                            <IonCardSubtitle>Data: {Formatar(data_hora)}</IonCardSubtitle>
                                         </IonCardHeader>
                                         <IonCardContent>
                                             <IonLabel>{escola}</IonLabel>
-                                            <IonLabel>{produto}</IonLabel>
-                                            <IonLabel>{quantidade}</IonLabel>
+                                            <IonLabel>Produto: {produto}</IonLabel>
+                                            <IonLabel>Quantidade: {quantidade}</IonLabel>
                                         </IonCardContent>
                                     </IonCard>
                                 </IonItem>

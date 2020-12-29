@@ -11,7 +11,7 @@ class Extrato(models.Model):
 	quantidade			=	models.IntegerField(verbose_name='Quantidade')
 	saldo				=	models.IntegerField(verbose_name='Saldo')
 	created_at			=	models.DateTimeField(verbose_name='Criado em', auto_now_add=True)
-	update_at   		=	models.DateTimeField(verbose_name='Atualizado em', auto_now=True)
+	updated_at   		=	models.DateTimeField(verbose_name='Atualizado em', auto_now=True)
 
 	def __str__(self):
 		return self.nome

@@ -36,19 +36,23 @@
 			<table class='table table-bordered table-hover'>
 				<thead class='thead-dark'>
 					<th scope='col' class='text-center align-middle'>Número de Documento</th>
+					<th scope='col' class='text-center align-middle'>Tipo de Movimento</th>
 					<th scope='col' class='text-center align-middle'>Entrada/Saída</th>
 					<th scope='col' class='text-center align-middle'>Escola</th>
 					<th scope='col' class='text-center align-middle'>Produto</th>
 					<th scope='col' class='text-center align-middle'>Quantidade</th>
+					<th scope='col' class='text-center align-middle'>Saldo</th>
 				</thead>
 				<tbody>
 					{% for extrato in extratos %}
 						<tr>
 							<td class='text-center align-middle'>{{ extrato.numero_documento }}</td>
+							<td class='text-center align-middle'>{{ extrato.tipo_mov }}</td>
 							<td class='text-center align-middle'>{{ extrato.entrada_saida }}</td>
 							<td class='text-center align-middle'>{{ extrato.escola }}</td>
 							<td class='text-center align-middle'>{{ extrato.produto }}</td>
 							<td class='text-center align-middle'>{{ extrato.quantidade }}</td>
+							<td class='text-center align-middle'>{{ extrato.saldo }}</td>
 						</tr>
 					{% endfor %}
 				</tbody>

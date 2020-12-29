@@ -14,7 +14,7 @@ class Usuario(models.Model):
 	is_authenticated	=	models.BooleanField(verbose_name='Autenticado', default=False)
 	last_login			=	models.DateTimeField(verbose_name='Último login', blank=True, null=True)
 	created_at			=	models.DateTimeField(verbose_name='Criado em', auto_now_add=True)
-	update_at   		=	models.DateTimeField(verbose_name='Atualizado em', auto_now=True)
+	updated_at   		=	models.DateTimeField(verbose_name='Atualizado em', auto_now=True)
 
 	def __str__(self):
 		return self.nome

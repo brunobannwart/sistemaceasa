@@ -37,7 +37,7 @@ def reportstockschool_view(request):
 			erro = 'Escola informada não existente'
 
 		else:
-			extratos = Extratos.objects.filter(escola=escola)
+			extratos = Extrato.objects.filter(escola=escola)
 			erro = None
 
 	else:

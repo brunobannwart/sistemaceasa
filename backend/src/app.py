@@ -1,5 +1,6 @@
 from flask import Flask, json, Response, request
 from flask_cors import CORS
+from functools import wraps
 from libs.Controller import Controller
 import os, jwt, datetime
 
@@ -31,6 +32,30 @@ def tratar_sucesso(saida, status=200, mimetype='application/json'):
 def tratar_erro(saida, status=500, mimetype='application/json'):
 	return Response(saida, status=status, mimetype=mimetype)
 
+def validar_token(f):
+	@wraps(f)
+	def validador(*args, **kwargs):
+		if 'authorization' in request.headers:
+			token = request.headers['authorization']
+		
+		else:
+			token = None
+
+		if not token:
+			return tratar_erro('Token não fornecido')
+
+		if not 'Bearer' in token:
+			return tratar_erro('Token inválido')
+
+		try:
+			token = token.replace('Bearer ', '')
+			decodificado = jwt.decode(token, app.config['SECRET_KEY'], ['HS256'])
+		except:
+			return tratar_erro('Token inválido')
+
+		return f(*args, **kwargs)
+	return validador
+
 @app.route('/login', methods=['POST'])
 def efetuar_login():
 	cpf 		= request.form['cpf']
@@ -51,6 +76,7 @@ def efetuar_login():
 		return tratar_erro('Não foi possível efetuar login')
 
 @app.route('/alterar', methods=['POST'])
+@validar_token
 def alterar_senha():
 	cpf	= request.form['cpf']
 	novaSenha = request.form['nova_senha']
@@ -78,6 +104,7 @@ def redefinir_senha():
 		return tratar_erro('Não foi possível redefinir')
 
 @app.route('/historico/<usuarioID>', methods=['GET'])
+@validar_token
 def historico(usuarioID=0):
 	romaneios, requisições = app.controller.historicoUsuario(usuarioID)
 
@@ -89,6 +116,7 @@ def historico(usuarioID=0):
 		return tratar_erro('Não foi possível recuperar nenhum histórico')
 
 @app.route('/romaneio', methods=['POST'])
+@validar_token
 def romaneio():
 	codigoEscola = request.form['codigo_escola']
 	numeroRomaneio = request.form['numero_romaneio']
@@ -100,7 +128,7 @@ def romaneio():
 	resultado = app.controller.novoRomaneio(
 		int(codigoEscola), 
 		numeroRomaneio, 
-		dataHora, 
+		datetime.datetime.strptime(dataHora.split(' GMT', 1)[0], '%a %b %d %Y %H:%M:%S'), 
 		codigoProduto, 
 		int(quantidade), 
 		int(codigoUsuario)
@@ -114,6 +142,7 @@ def romaneio():
 		return tratar_erro('Não foi possível efetuar romaneio')
 
 @app.route('/requisicao', methods=['POST'])
+@validar_token
 def requisição():
 	codigoEscola = request.form['codigo_escola']
 	dataHora = request.form['data_hora']
@@ -124,7 +153,7 @@ def requisição():
 
 	resultado = app.controller.novaRequisição(
 		int(codigoEscola), 
-		dataHora, 
+		datetime.datetime.strptime(dataHora.split(' GMT', 1)[0], '%a %b %d %Y %H:%M:%S'), 
 		tipo, 
 		codigoProduto, 
 		int(quantidade), 

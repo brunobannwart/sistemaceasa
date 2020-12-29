@@ -1,3 +1,4 @@
+import datetime
 import mysql.connector as mysql
 
 class Database:
@@ -12,7 +13,7 @@ class Database:
 
 	def obterUsuario(self, cpf):
 		try:
-			self.cursor.execute("SELECT * FROM `usuario` WHERE cpf=%s", [cpf])
+			self.cursor.execute("SELECT * FROM `usuario` WHERE `cpf`=%s", [cpf])
 			resultado = self.cursor.fetchone()
 
 			if resultado != None:
@@ -51,10 +52,10 @@ class Database:
 			resultados = self.cursor.fetchall()
 
 			for resultado in resultados:
-				self.cursor.execute("SELECT * FROM `escola` WHERE `id`=%s", resultado[1])
+				self.cursor.execute("SELECT * FROM `escola` WHERE `id`=%s", [resultado[1]])
 				escola = self.cursor.fetchone()
 
-				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", resultado[5])
+				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", [resultado[5]])
 				produto = self.cursor.fetchone()
 
 				if escola != None and produto != None:
@@ -84,10 +85,10 @@ class Database:
 			resultados = self.cursor.fetchall()
 
 			for resultado in resultados:
-				self.cursor.execute("SELECT * FROM `escola` WHERE `id`=%s", resultado[1])
+				self.cursor.execute("SELECT * FROM `escola` WHERE `id`=%s", [resultado[1]])
 				escola = self.cursor.fetchone()
 
-				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", resultado[6])
+				self.cursor.execute("SELECT * FROM `produto` WHERE `codigo`=%s", [resultado[6]])
 				produto = self.cursor.fetchone()
 
 				if escola != None and produto != None:
@@ -234,8 +235,8 @@ class Database:
 
 	def cadastrarExtrato(self, escolaID, numeroDocumento, dataHora, tipo, eS, produtoID, quantidade, saldo):
 		try:
-			self.cursor.execute("INSERT INTO `extrato` (`escola_id`, `numero_documento`, `data_hora, `tipo_mov`, `entrada_saida`, `produto_id`, `quantidade`, `saldo`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
-				[escolaID, numeroDocumento, dataHora, tipo, eS, produtoID, quantidade, saldo])
+			self.cursor.execute("INSERT INTO extrato(escola_id, numero_documento, data_hora, tipo_mov, entrada_saida, produto_id, quantidade, saldo, created_at, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				[escolaID, numeroDocumento, dataHora, tipo, eS, produtoID, quantidade, saldo, datetime.datetime.utcnow(), datetime.datetime.utcnow()])
 			self.conexao.commit()
 			return True
 

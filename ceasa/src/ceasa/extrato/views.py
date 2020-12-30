@@ -3,9 +3,6 @@ from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 
-from escola.models import Escola
-from produto.models import Produto
-
 from .models import Extrato
 # from .forms import ExtratoForm
 
@@ -19,40 +16,6 @@ def extractlist_view(request):
 	}
 
 	return render(request, 'extract/list.html', contexto)
-
-@login_required(login_url='login')
-@csrf_protect
-def reportstockschool_view(request):
-	if request.method == 'POST':
-		pesquisa = request.POST.get('pesquisa')
-
-		try:
-			escola = Escola.objects.get(nome=pesquisa)
-
-		except:
-			escola = None
-
-		if escola == None:
-			extratos = []
-			erro = 'Escola informada não existente'
-
-		else:
-			extratos = Extrato.objects.filter(escola=escola)
-			erro = None
-
-	else:
-		pesquisa = ''
-		extratos = []
-		erro = None
-
-	contexto = {
-		'pesquisa': pesquisa,
-		'extratos': extratos,
-		'erro': erro,
-	}
-
-	contexto.update(csrf(request))
-	return render(request, 'report/liststock.html', contexto)
 
 # @login_required(login_url='login')
 # @csrf_protect

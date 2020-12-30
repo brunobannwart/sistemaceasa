@@ -66,7 +66,7 @@ const Requisição: React.FC = () => {
                 setCodigoProduto(resposta.text);
             })
             .catch(erro => {
-                Alerta('Não foi possível escanear código de barra');
+                Alerta('Não foi possível ler código de barra');
             });
     }
 
@@ -135,7 +135,7 @@ const Requisição: React.FC = () => {
                                         onClick={() => escanear()}
                                     >
                                         <IonIcon slot='start' icon={barcode} />
-                                        <IonLabel>Escanear</IonLabel>
+                                        <IonLabel>Leitor</IonLabel>
                                     </IonButton>
                                 </div>
                             </IonCol>

@@ -12,6 +12,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import { construct, logOut, time } from 'ionicons/icons';
 
+import Confirmar from '../../utils/confirm';
 import Logo from '../../assets/logo.png';
 import './perfil.css';
 
@@ -51,7 +52,13 @@ const Perfil: React.FC<Props> = ({
                         <IonIcon icon={time} />
                         <IonLabel>Histórico</IonLabel>
                     </IonItem>
-                    <IonItem onClick={efetuarLogout}>
+                    <IonItem onClick={() => {
+                        Confirmar(
+                            'Sair?',
+                            'Deseja realmente sair do aplicativo?',
+                            efetuarLogout
+                        );
+                    }}>
                         <IonIcon icon={logOut} />
                         <IonLabel>Sair</IonLabel>
                     </IonItem>

@@ -18,14 +18,14 @@
 	<form method='post' action='.' autocomplete='off'>
 		{% csrf_token %}
 		<div class='input-group mb-3'>
-			<span class='input-group-text'>Nome da escola</span>
+			<span class='input-group-text'>Código do produto</span>
 			<input 
 				name='pesquisa' 
 				id='pesquisa'
 				type='text' 
 				class='form-control' 
 				value='{{ pesquisa }}' 
-				placeholder='Pesquisar extratos por escola'
+				placeholder='Pesquisar extratos por produto'
 			/>
 			<button class='btn btn-outline-success' type='submit'>Pesquisar</button>
 		</div>

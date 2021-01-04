@@ -28,17 +28,17 @@ def productcreate_view(request):
 		if formulario.is_valid():
 			campos = formulario.clean_form()
 
-			try:
-				if Produto.objects.filter(codigo=campos['codigo']):
-					formulario = request.POST
-					erro = 'Já existe produto com esse código'
+			if Produto.objects.filter(codigo=campos['codigo']):
+				formulario = request.POST
+				erro = 'Já existe produto com esse código'
 					
-				else:
+			else:
+				try:
 					nova_produto = Produto.objects.create(codigo=campos['codigo'], descricao=campos['descricao'])
 					nova_produto.save()
-
-			finally:
-				return redirect('productlist')
+				
+				finally:
+					return redirect('productlist')
 		else:
 			formulario = request.POST
 			erro = 'Alguns campos não foram preenchidos corretamente'

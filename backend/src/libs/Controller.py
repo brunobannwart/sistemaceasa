@@ -81,16 +81,12 @@ class Controller:
 
 						else:
 							return False
-
 					else:
 						return False
-
 				else:
 					return False
-
 			else:
 				return False
-
 		else:
 			return False
 
@@ -127,7 +123,7 @@ class Controller:
 				atualizar = self.db.atualizarEstoque(estoque['id'], novoSaldo)
 
 				if atualizar:
-					ultimaRequisição = self.db.obterUltimaRequisição()
+					ultimaRequisição = self.db.obterUltimaRequisição(codigoEscola)
 
 					if ultimaRequisição != None:
 						novoDocumento = int(ultimaRequisição['numero_documento']) + 1
@@ -145,15 +141,11 @@ class Controller:
 
 						else:
 							return False
-
 					else:
 						return False
-
 				else:
 					return False
-
 			else:
 				return False
-
 		else:
 			return False

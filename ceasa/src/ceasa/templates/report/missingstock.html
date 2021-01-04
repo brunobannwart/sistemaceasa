@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block pagina %}
+
+{% if erro is not None %}
+	<div class='error-overlay' onclick='this.style.display="none"'>
+		<div class='error-popup' onclick='this.parentElement.style.display="none"'>
+			<h2>Aviso</h2>
+			<button aria-label='Fechar' class='error-close'>&times;</button>
+			<div class='error-content'>
+				<p>{{ erro }}</p>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<div class='list'>
+	<form method='post' action='.' autocomplete='off'>
+		{% csrf_token %}
+		<div class='input-group mb-3'>
+			<span class='input-group-text'>Nome da escola</span>
+			<input 
+				name='pesquisa' 
+				id='pesquisa'
+				type='text' 
+				class='form-control' 
+				value='{{ pesquisa }}' 
+				placeholder='Pesquisar estoques com quantidade faltando por escola'
+			/>
+			<button class='btn btn-outline-success' type='submit'>Pesquisar</button>
+		</div>
+	</form>
+
+	{% if estoques|length > 0 %}
+		<div class='table-responsive-lg'>
+			<table class='table table-bordered table-hover'>
+				<thead class='thead-dark'>
+					<th scope='col' class='text-center align-middle'>Escola</th>
+					<th scope='col' class='text-center align-middle'>Produto</th>
+					<th scope='col' class='text-center align-middle'>Quantidade</th>
+					<th scope='col' class='text-center align-middle'>Mínimo</th>
+				</thead>
+				<tbody>
+					{% for estoque in estoques %}
+						<tr>
+							<td class='text-center align-middle'>{{ estoque.escola }}</td>
+							<td class='text-center align-middle'>{{ estoque.produto }}</td>
+							<td class='text-center align-middle'>{{ estoque.quantidade }}</td>
+							<td class='text-center align-middle'>{{ estoque.minimo }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% elif request.method == 'POST' %}
+		<div class='empty-read'>
+			<div class='card'>
+				<div class='card-body'>
+					<header>
+						<strong>Aviso</strong>
+						<i class='fas fa-times'></i>
+						<small>Não foram encontradas informações para este relatório</small>
+					</header>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+</div>
+{% endblock %}

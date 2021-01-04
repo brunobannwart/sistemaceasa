@@ -18,14 +18,30 @@
 	<form method='post' action='.' autocomplete='off'>
 		{% csrf_token %}
 		<div class='input-group mb-3'>
-			<span class='input-group-text'>Código do produto</span>
+			<span class='input-group-text'>Nome da escola</span>
 			<input 
 				name='pesquisa' 
 				id='pesquisa'
 				type='text' 
 				class='form-control' 
 				value='{{ pesquisa }}' 
-				placeholder='Pesquisar extratos por produto'
+				placeholder='Pesquisar extratos de ajuste por escola'
+			/>
+			<span class='input-group-text'>Inicio</span>
+			<input 
+				name='inicio'
+				id='inicio'
+				type='datetime-local'
+				class='form-control'
+				value='{{ inicio }}'
+			/>
+			<span class='input-group-text'>Término</span>
+			<input 
+				name='termino'
+				id='termino'
+				type='datetime-local'
+				class='form-control'
+				value='{{ termino }}'
 			/>
 			<button class='btn btn-outline-success' type='submit'>Pesquisar</button>
 		</div>
@@ -41,7 +57,6 @@
 					<th scope='col' class='text-center align-middle'>Escola</th>
 					<th scope='col' class='text-center align-middle'>Produto</th>
 					<th scope='col' class='text-center align-middle'>Quantidade</th>
-					<th scope='col' class='text-center align-middle'>Saldo</th>
 				</thead>
 				<tbody>
 					{% for extrato in extratos %}
@@ -52,20 +67,19 @@
 							<td class='text-center align-middle'>{{ extrato.escola }}</td>
 							<td class='text-center align-middle'>{{ extrato.produto }}</td>
 							<td class='text-center align-middle'>{{ extrato.quantidade }}</td>
-							<td class='text-center align-middle'>{{ extrato.saldo }}</td>
 						</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 		</div>
-	{% else %}
+	{% elif request.method == 'POST' %}
 		<div class='empty-read'>
 			<div class='card'>
 				<div class='card-body'>
 					<header>
 						<strong>Aviso</strong>
 						<i class='fas fa-times'></i>
-						<small>Ainda não existe extratos realizados</small>
+						<small>Não foram encontradas informações para este relatório</small>
 					</header>
 				</div>
 			</div>

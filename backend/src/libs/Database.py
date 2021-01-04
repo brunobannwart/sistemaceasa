@@ -29,9 +29,9 @@ class Database:
 				}
 
 				return usuario
+
 			else:
 				return None
-				
 		except:
 			return None
 	
@@ -127,7 +127,6 @@ class Database:
 
 			else:
 				return None
-
 		except:
 			return None
 
@@ -149,7 +148,6 @@ class Database:
 			
 			else:
 				return None
-
 		except:
 			return None
 
@@ -193,7 +191,6 @@ class Database:
 
 			else:
 				return None
-
 		except:
 			return None
 
@@ -207,9 +204,9 @@ class Database:
 		except:
 			return False
 
-	def obterUltimaRequisição(self):
+	def obterUltimaRequisição(self, codigoEscola):
 		try:
-			self.cursor.execute("SELECT * FROM `requisicao` ORDER BY `id` DESC LIMIT 1")
+			self.cursor.execute("SELECT * FROM `requisicao` WHERE `codigo_escola`=%s ORDER BY `id` DESC LIMIT 1", [codigoEscola])
 			resultado = self.cursor.fetchone()
 
 			if resultado != None:
@@ -229,7 +226,6 @@ class Database:
 
 			else:
 				return None
-
 		except:
 			return None
 

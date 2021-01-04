@@ -14,7 +14,7 @@ class Extrato(models.Model):
 	updated_at   		=	models.DateTimeField(verbose_name='Atualizado em', auto_now=True)
 
 	def __str__(self):
-		return self.nome
+		return self.numero_documento
 
 	class Meta:
 		db_table = 'extrato'

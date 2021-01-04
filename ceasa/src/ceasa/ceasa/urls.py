@@ -24,7 +24,7 @@ from escola.views import schoollist_view, schoolcreate_view, schooledit_view, sc
 from estoque.views import stocklist_view, stockcreate_view, stockedit_view, stockdelete_view
 from extrato.views import extractlist_view #extractcreate_view, extractedit_view, extractdelete_view
 from produto.views import productlist_view, productcreate_view, productedit_view, productdelete_view
-from relatorio.views import reportstockschool_view, reportinventory_view
+from relatorio.views import reportextractschool_view, reportmissingstock_view, reportadjustment_view
 from usuario.views import userlist_view, usercreate_view, useredit_view, userdelete_view
 
 urlpatterns = [
@@ -56,8 +56,9 @@ urlpatterns = [
     path('produtos/formulario/<int:id>/', productedit_view, name='productedit'),
     path('produtos/excluir/<int:id>/', productdelete_view, name='productdelete'),
 
-    path('relatorios/escola/', reportstockschool_view, name='reportstockschool'),
-    path('relatorios/inventario/', reportinventory_view, name='reportinventory'),
+    path('relatorios/ajustes/', reportadjustment_view, name='reportadjustment'),
+    path('relatorios/escola/', reportextractschool_view, name='reportextractschool'),
+    path('relatorios/estoque/', reportmissingstock_view, name='reportmissingstock'),
 
     path('usuarios/', userlist_view, name='userlist'),
     path('usuarios/formulario/', usercreate_view, name='usercreate'),

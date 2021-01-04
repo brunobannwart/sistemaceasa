@@ -4,14 +4,14 @@ from functools import wraps
 from libs.Controller import Controller
 import os, jwt, datetime
 
-base_dir = os.path.abspath(os.path.dirname(__file__))
-templates_dir = os.path.join(base_dir, 'templates')
+diretorio_base = os.path.abspath(os.path.dirname(__file__))
+diretorio_templates = os.path.join(diretorio_base, 'templates')
 
 app = Flask(__name__)
 CORS(app)
 
 app.config.from_object('config.Config')
-app.controller = Controller(templates_dir)
+app.controller = Controller(diretorio_templates)
 
 def codificar_token(usuarioID):
 	try:

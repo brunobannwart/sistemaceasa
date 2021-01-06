@@ -1,7 +1,11 @@
+from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
+
+from ceasa.utils import render_to_pdf
 
 from .models import Extrato
 # from .forms import ExtratoForm
@@ -13,9 +17,47 @@ def extractlist_view(request):
 
 	contexto = {
 		'extratos': extratos,
+		'inicio': '',
+		'termino': '',
 	}
 
 	return render(request, 'extract/list.html', contexto)
+
+@login_required(login_url='login')
+def extractpdf_view(request):
+	if request.method == 'POST':
+		inicio = request.POST.get('inicio')
+		termino = request.POST.get('termino')
+
+		extratos = Extrato.objects.filter(data_hora__gte=inicio, data_hora__lte=termino)
+
+		if not len(extratos):
+			return redirect('/extratos/')
+			
+		if settings.DEBUG:
+			logo = settings.STATICFILES_DIRS[0] + '/assets/logo.png'
+		else:
+			logo = settings.STATIC_ROOT + 'assets/logo.png'
+
+		contexto = {
+			'extratos': extratos,
+			'logo': logo,
+		}
+
+		pdf = render_to_pdf('extract/pdf.html', contexto)
+
+		if not pdf:
+			return redirect('/extratos/')
+
+		else:
+			resposta = HttpResponse(pdf, content_type='application/pdf')
+			arquivo = 'extratos.pdf'
+			conteudo = 'inline; filename=%s' % (arquivo)
+			resposta['Content-Disposition'] = conteudo
+			return resposta
+
+	else:
+		return redirect('/extratos/')
 
 # @login_required(login_url='login')
 # @csrf_protect

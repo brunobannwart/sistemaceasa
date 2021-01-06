@@ -102,7 +102,7 @@ def reportadjustment_view(request):
 			erro = 'Escola informada não existente'
 
 		else:
-			extratos = Extrato.objects.filter(escola=escola)
+			extratos = Extrato.objects.filter(escola=escola, data_hora__gte=inicio, data_hora__lte=termino)
 			erro = None
 
 		ajustes = []
@@ -111,7 +111,6 @@ def reportadjustment_view(request):
 			if extrato.tipo_mov == 'AJ':
 				ajustes.append(extrato)
 
-		print(ajustes)
 	else:
 		pesquisa = ''
 		inicio = ''

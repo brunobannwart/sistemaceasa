@@ -3,6 +3,29 @@
 {% block pagina %}
 <div class='list'>
 	{% if extratos|length > 0 %}
+		<form method='post' action='{% url "extractpdf" %}' autocomplete='off'>
+			{% csrf_token %}
+			<div class='input-group mb-3'>
+				<span class='input-group-text'>Inicio</span>
+				<input 
+					name='inicio'
+					id='inicio'
+					type='datetime-local'
+					class='form-control'
+					value='{{ inicio }}'
+				/>
+				<span class='input-group-text'>Término</span>
+				<input 
+					name='termino'
+					id='termino'
+					type='datetime-local'
+					class='form-control'
+					value='{{ termino }}'
+				/>
+				<button class='btn btn-link' type='submit'>Criar PDF</button>
+			</div>
+		</form>
+
 		<div class='table-responsive-lg'>
 			<table class='table table-bordered table-hover'>
 				<thead class='thead-dark'>
